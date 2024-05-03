@@ -1,1 +1,14 @@
-<p>tab-panel works!</p>
+<div class="tab-container">
+    <ul class="nav nav-tabs">
+      <li class="nav-item" *ngFor="let tab of tabs">
+        <a class="nav-link" href="#" (click)="selectTab(tab)">{{ tab.title }}</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <ng-container *ngFor="let tab of tabs">
+        <div *ngIf="tab === activeTab" class="tab-pane">
+          <p>{{ tab.content }}</p>
+        </div>
+      </ng-container>
+    </div>
+  </div>
