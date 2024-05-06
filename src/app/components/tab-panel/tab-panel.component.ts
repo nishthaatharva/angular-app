@@ -19,13 +19,13 @@ export class TabPanelComponent implements OnInit {
   activeTab: string = 'Canvas';
   textInput: string = '';
   fonts: string[] = [
-    'Arial',
-    'Verdana',
-    'Helvetica',
-    'Times New Roman',
-    'Courier New',
-    'Georgia',
-    'Palatino',
+    'Pacifico',
+    'Kaushan Script',
+    'Dancing Script',
+    'Cursive',
+    'Shadows Into Light',
+    'Sacramento',
+    'Satisfy',
   ];
 
   ngOnInit() {
