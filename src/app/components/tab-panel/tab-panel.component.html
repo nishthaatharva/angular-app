@@ -62,12 +62,13 @@
     >
       <div style="text-align: center">
         <p>Text Style Selector</p>
-        <input
-          type="text"
-          [(ngModel)]="textInput"
-          placeholder="Type your name here"
-        />
+
         <div>
+          <input
+            type="text"
+            [(ngModel)]="textInput"
+            placeholder="Type your name here"
+          />
           <button (click)="setColor1('black')">
             <i class="fas fa-pencil-alt" style="color: black"></i>
           </button>
@@ -78,23 +79,13 @@
             <i class="fas fa-pencil-alt" style="color: blue"></i>
           </button>
         </div>
-        <div style="margin-top: 10px">
-          @if (textInput) {
-          <ng-container>
-            @for (font of fonts; track font) {
+        <div class="row" style="margin-top: 10px">
+          @for (font of fonts; track font) {
+          <div class="col-md-6">
             <button [style.font-family]="font" [style.color]="selectedColor">
-              {{ textInput }}
+              {{ textInput ? textInput : "Type your name" }}
             </button>
-            }
-          </ng-container>
-          } @if (!textInput) {
-          <ng-container>
-            @for (font of fonts; track font) {
-            <button [style.font-family]="font" [style.color]="selectedColor">
-              Type your name
-            </button>
-            }
-          </ng-container>
+          </div>
           }
         </div>
       </div>
