@@ -5,19 +5,17 @@
 <div style="text-align: center">
   <p>Canvas Drawing</p>
   <div>
-    <button (click)="clearCanvas()">Clear Canvas</button>
-    <button (click)="setColor('red')">
-      <i class="fas fa-pencil-alt" style="color: red"></i>
-    </button>
-    <!-- Red pencil icon -->
-    <button (click)="setColor('blue')">
-      <i class="fas fa-pencil-alt" style="color: blue"></i>
-    </button>
-    <!-- Blue pencil icon -->
     <button (click)="setColor('black')">
       <i class="fas fa-pencil-alt" style="color: black"></i>
     </button>
-    <!-- Black pencil icon -->
+    <button (click)="setColor('red')">
+      <i class="fas fa-pencil-alt" style="color: red"></i>
+    </button>
+    <button (click)="setColor('blue')">
+      <i class="fas fa-pencil-alt" style="color: blue"></i>
+    </button>
+
+    <button (click)="clearCanvas()">Clear</button>
   </div>
   <canvas
     #canvas
