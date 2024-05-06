@@ -1,8 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-
 @Component({
   selector: 'app-tab-panel',
-  standalone: true, // Make sure this is included
+  standalone: true,
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css']
 })
@@ -13,41 +12,40 @@ export class TabPanelComponent implements OnInit {
   prevX = 0;
   prevY = 0;
   ctx: CanvasRenderingContext2D | null = null;
-
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
   }
-
   mousedown(event: MouseEvent) {
     this.isDrawing = true;
-    this.prevX = event.clientX;
-    this.prevY = event.clientY;
+    this.prevX = event.clientX - this.canvas.nativeElement.offsetLeft; // Adjust for canvas offset
+    this.prevY = event.clientY - this.canvas.nativeElement.offsetTop;  // Adjust for canvas offset
   }
-
   mouseup() {
     this.isDrawing = false;
   }
-
   mousemove(event: MouseEvent) {
     if (this.isDrawing) {
-      const currentX = event.clientX;
-      const currentY = event.clientY;
-      const dx = currentX - this.prevX;
-      const dy = currentY - this.prevY;
+      const currentX = event.clientX - this.canvas.nativeElement.offsetLeft;
+      const currentY = event.clientY - this.canvas.nativeElement.offsetTop;
       this.draw(this.prevX, this.prevY, currentX, currentY);
       this.prevX = currentX;
       this.prevY = currentY;
     }
   }
-
   draw(startX: number, startY: number, endX: number, endY: number) {
     if (this.ctx) {
       this.ctx.beginPath();
       this.ctx.moveTo(startX, startY);
       this.ctx.lineTo(endX, endY);
-      this.ctx.strokeStyle = 'black';
-      this.ctx.lineWidth = 2;
+      this.ctx.strokeStyle = 'black'; // You can change this for different colors
+      this.ctx.lineWidth = 2; // You can change this for different line widths
       this.ctx.stroke();
+    }
+  }
+
+  clearCanvas() {
+    if (this.ctx) {
+      this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
     }
   }
 }
