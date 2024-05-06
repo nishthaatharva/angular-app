@@ -1,5 +1,24 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+/>
 <div style="text-align: center">
   <p>Canvas Drawing</p>
+  <div>
+    <button (click)="clearCanvas()">Clear Canvas</button>
+    <button (click)="setColor('red')">
+      <i class="fas fa-pencil-alt" style="color: red"></i>
+    </button>
+    <!-- Red pencil icon -->
+    <button (click)="setColor('blue')">
+      <i class="fas fa-pencil-alt" style="color: blue"></i>
+    </button>
+    <!-- Blue pencil icon -->
+    <button (click)="setColor('black')">
+      <i class="fas fa-pencil-alt" style="color: black"></i>
+    </button>
+    <!-- Black pencil icon -->
+  </div>
   <canvas
     #canvas
     width="800"
@@ -10,8 +29,4 @@
     (mousemove)="mousemove($event)"
   >
   </canvas>
-  <button (click)="clearCanvas()">Clear Canvas</button>
-  <button (click)="setColor('red')">Red</button>
-  <button (click)="setColor('blue')">Blue</button>
-  <button (click)="setColor('black')">Black</button>
 </div>
