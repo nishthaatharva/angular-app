@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+
 @Component({
   selector: 'app-tab-panel',
   standalone: true,
@@ -12,17 +13,22 @@ export class TabPanelComponent implements OnInit {
   prevX = 0;
   prevY = 0;
   ctx: CanvasRenderingContext2D | null = null;
+  currentColor = 'black'; // Default color
+
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
   }
+
   mousedown(event: MouseEvent) {
     this.isDrawing = true;
-    this.prevX = event.clientX - this.canvas.nativeElement.offsetLeft; // Adjust for canvas offset
-    this.prevY = event.clientY - this.canvas.nativeElement.offsetTop;  // Adjust for canvas offset
+    this.prevX = event.clientX - this.canvas.nativeElement.offsetLeft;
+    this.prevY = event.clientY - this.canvas.nativeElement.offsetTop;
   }
+
   mouseup() {
     this.isDrawing = false;
   }
+
   mousemove(event: MouseEvent) {
     if (this.isDrawing) {
       const currentX = event.clientX - this.canvas.nativeElement.offsetLeft;
@@ -32,13 +38,14 @@ export class TabPanelComponent implements OnInit {
       this.prevY = currentY;
     }
   }
+
   draw(startX: number, startY: number, endX: number, endY: number) {
     if (this.ctx) {
       this.ctx.beginPath();
       this.ctx.moveTo(startX, startY);
       this.ctx.lineTo(endX, endY);
-      this.ctx.strokeStyle = 'black'; // You can change this for different colors
-      this.ctx.lineWidth = 2; // You can change this for different line widths
+      this.ctx.strokeStyle = this.currentColor; // Use current color
+      this.ctx.lineWidth = 2;
       this.ctx.stroke();
     }
   }
@@ -47,5 +54,9 @@ export class TabPanelComponent implements OnInit {
     if (this.ctx) {
       this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
     }
+  }
+
+  setColor(color: string) {
+    this.currentColor = color;
   }
 }
