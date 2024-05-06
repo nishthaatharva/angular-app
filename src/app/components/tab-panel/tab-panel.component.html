@@ -1,11 +1,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
 <div class="container">
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link" [class.active]="activeTab === 'Canvas'" (click)="selectTab('Canvas')" style="cursor: pointer;">Draw</a>
+      <a class="nav-link" [class.active]="activeTab === 'Canvas'" (click)="selectTab('Canvas')" style="cursor: pointer">Draw</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="activeTab === 'Tab2'" (click)="selectTab('Tab2')" style="cursor: pointer;">Select Style</a>
+      <a class="nav-link" [class.active]="activeTab === 'Tab2'" (click)="selectTab('Tab2')" style="cursor: pointer">Select Style</a>
     </li>
   </ul>
   <div class="tab-content">
@@ -32,13 +33,19 @@
           (mousedown)="mousedown($event)"
           (mouseup)="mouseup()"
           (mousemove)="mousemove($event)"
-        >
-        </canvas>
+        ></canvas>
       </div>
     </div>
     <div class="tab-pane fade" [class.show]="activeTab === 'Tab2'" [class.active]="activeTab === 'Tab2'">
-      <!-- Content for Tab 2 goes here -->
-      <p>Tab 2 works</p>
+      <div style="text-align: center">
+        <p>Text Style Selector</p>
+        <input type="text" [(ngModel)]="textInput" placeholder="Enter text">
+        <div style="margin-top: 10px">
+          @for (font of fonts; track font) {
+            <button [style.font-family]="font" [disabled]="!textInput">{{ font }}</button>
+          }
+        </div>
+      </div>
     </div>
   </div>
 </div>
