@@ -15,8 +15,9 @@ export class TabPanelComponent implements OnInit {
   prevY = 0;
   ctx: CanvasRenderingContext2D | null = null;
   currentColor = 'black';
+  selectedColor: string = 'black';
   activeTab: string = 'Canvas';
-  textInput: string = ''; 
+  textInput: string = '';
   fonts: string[] = [
     'Arial',
     'Verdana',
@@ -25,7 +26,7 @@ export class TabPanelComponent implements OnInit {
     'Courier New',
     'Georgia',
     'Palatino',
-  ]; // Different font options
+  ];
 
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -80,5 +81,9 @@ export class TabPanelComponent implements OnInit {
 
   setColor(color: string) {
     this.currentColor = color;
+  }
+
+  setColor1(color: string) {
+    this.selectedColor = color;
   }
 }

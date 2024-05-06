@@ -67,11 +67,22 @@
           [(ngModel)]="textInput"
           placeholder="Type your name here"
         />
+        <div>
+          <button (click)="setColor1('black')">
+            <i class="fas fa-pencil-alt" style="color: black"></i>
+          </button>
+          <button (click)="setColor1('red')">
+            <i class="fas fa-pencil-alt" style="color: red"></i>
+          </button>
+          <button (click)="setColor1('blue')">
+            <i class="fas fa-pencil-alt" style="color: blue"></i>
+          </button>
+        </div>
         <div style="margin-top: 10px">
           @if (textInput) {
           <ng-container>
             @for (font of fonts; track font) {
-            <button [style.font-family]="font" >
+            <button [style.font-family]="font" [style.color]="selectedColor">
               {{ textInput }}
             </button>
             }
@@ -79,7 +90,7 @@
           } @if (!textInput) {
           <ng-container>
             @for (font of fonts; track font) {
-            <button [style.font-family]="font" >
+            <button [style.font-family]="font" [style.color]="selectedColor">
               Type your name
             </button>
             }
