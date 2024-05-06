@@ -16,7 +16,7 @@ export class TabPanelComponent implements OnInit {
   ctx: CanvasRenderingContext2D | null = null;
   currentColor = 'black';
   activeTab: string = 'Canvas';
-  textInput: string = ''; // To store the input text
+  textInput: string = 'Type your name'; // To store the input text
   fonts: string[] = ['Arial', 'Verdana', 'Helvetica', 'Times New Roman', 'Courier New', 'Georgia', 'Palatino']; // Different font options
 
   ngOnInit() {

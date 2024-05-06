@@ -42,7 +42,7 @@
         <input type="text" [(ngModel)]="textInput" placeholder="Enter text">
         <div style="margin-top: 10px">
           @for (font of fonts; track font) {
-            <button [style.font-family]="font" [disabled]="!textInput">{{ font }}</button>
+            <button [style.font-family]="font" [disabled]="!textInput">{{ textInput }}</button>
           }
         </div>
       </div>
