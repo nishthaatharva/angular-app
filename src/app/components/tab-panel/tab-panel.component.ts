@@ -16,8 +16,16 @@ export class TabPanelComponent implements OnInit {
   ctx: CanvasRenderingContext2D | null = null;
   currentColor = 'black';
   activeTab: string = 'Canvas';
-  textInput: string = 'Type your name'; // To store the input text
-  fonts: string[] = ['Arial', 'Verdana', 'Helvetica', 'Times New Roman', 'Courier New', 'Georgia', 'Palatino']; // Different font options
+  textInput: string = ''; 
+  fonts: string[] = [
+    'Arial',
+    'Verdana',
+    'Helvetica',
+    'Times New Roman',
+    'Courier New',
+    'Georgia',
+    'Palatino',
+  ]; // Different font options
 
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -60,7 +68,12 @@ export class TabPanelComponent implements OnInit {
 
   clearCanvas() {
     if (this.ctx) {
-      this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+      this.ctx.clearRect(
+        0,
+        0,
+        this.canvas.nativeElement.width,
+        this.canvas.nativeElement.height
+      );
       this.currentColor = 'black';
     }
   }
