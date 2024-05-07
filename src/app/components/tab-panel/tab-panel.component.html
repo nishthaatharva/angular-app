@@ -2,7 +2,6 @@
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
 />
-
 <div class="container">
   <ul class="nav nav-tabs">
     <li class="nav-item">
@@ -21,6 +20,15 @@
         (click)="selectTab('Tab2')"
         style="cursor: pointer"
         >Select Style</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="activeTab === 'Tab3'"
+        (click)="selectTab('Tab3')"
+        style="cursor: pointer"
+        >Stamp Customization</a
       >
     </li>
   </ul>
@@ -106,6 +114,69 @@
             </button>
           </div>
           }
+        </div>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      [class.show]="activeTab === 'Tab3'"
+      [class.active]="activeTab === 'Tab3'"
+    >
+      <div style="text-align: center; width: 70%; margin: 0 auto">
+        <p>Stamp Customization</p>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <input
+              type="text"
+              [(ngModel)]="textTop"
+              class="form-control"
+              placeholder="Text Top"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <input
+              type="text"
+              [(ngModel)]="textCenter"
+              class="form-control"
+              placeholder="Text Center"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <input
+              type="text"
+              [(ngModel)]="textBottom"
+              class="form-control"
+              placeholder="Text Bottom"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <input
+              type="text"
+              [(ngModel)]="stampName"
+              class="form-control"
+              placeholder="Stamp Name"
+            />
+          </div>
+          <div class="col-md-12">
+            <label>
+              <input type="checkbox" [(ngModel)]="showBorder" />
+              Square Border
+            </label>
+          </div>
+          <div class="col-md-12">
+            <input type="color" [(ngModel)]="stampColor" />
+          </div>
+          <div class="col-md-12" style="margin-top: 20px">
+            <button class="btn btn-primary" (click)="stamp()">Stamp</button>
+          </div>
+        </div>
+        <div style="margin-top: 20px">
+          <canvas
+            #stampCanvas
+            width="200"
+            height="200"
+            style="border: 1px solid black"
+          ></canvas>
         </div>
       </div>
     </div>
