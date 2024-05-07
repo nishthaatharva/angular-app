@@ -2,6 +2,7 @@
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
 />
+
 <div class="container">
   <ul class="nav nav-tabs">
     <li class="nav-item">
@@ -31,7 +32,7 @@
     >
       <div style="text-align: center">
         <p>Canvas Drawing</p>
-        <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 20px">
           <button class="btn btn-outline-light" (click)="setColor('black')">
             <i class="fas fa-pencil-alt" style="color: black"></i>
           </button>
@@ -99,7 +100,7 @@
               class="btn btn-light btn-block rounded border"
               [style.font-family]="font"
               [style.color]="selectedColor"
-              style="width: 90%; padding: 20px 0px; font-size: 28px;"
+              style="width: 90%; padding: 20px 0px; font-size: 28px"
             >
               {{ textInput ? textInput : "Type your name" }}
             </button>

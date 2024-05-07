@@ -28,8 +28,17 @@ export class TabPanelComponent implements OnInit {
     'Satisfy',
   ];
 
+  strokeHistory: {
+    startX: number;
+    startY: number;
+    endX: number;
+    endY: number;
+    color: string;
+  }[] = [];
+
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
+    this.redrawStrokes();
   }
 
   selectTab(tab: string) {
@@ -64,6 +73,14 @@ export class TabPanelComponent implements OnInit {
       this.ctx.strokeStyle = this.currentColor;
       this.ctx.lineWidth = 2;
       this.ctx.stroke();
+
+      this.strokeHistory.push({
+        startX,
+        startY,
+        endX,
+        endY,
+        color: this.currentColor,
+      });
     }
   }
 
@@ -75,12 +92,33 @@ export class TabPanelComponent implements OnInit {
         this.canvas.nativeElement.width,
         this.canvas.nativeElement.height
       );
+      this.strokeHistory = [];
       this.currentColor = 'black';
     }
   }
 
   setColor(color: string) {
     this.currentColor = color;
+    this.redrawStrokes();
+  }
+
+  redrawStrokes() {
+    if (this.ctx) {
+      this.ctx.clearRect(
+        0,
+        0,
+        this.canvas.nativeElement.width,
+        this.canvas.nativeElement.height
+      );
+      for (const line of this.strokeHistory) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(line.startX, line.startY);
+        this.ctx.lineTo(line.endX, line.endY);
+        this.ctx.strokeStyle = this.currentColor;
+        this.ctx.lineWidth = 2;
+        this.ctx.stroke();
+      }
+    }
   }
 
   setColor1(color: string) {
