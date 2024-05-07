@@ -12,7 +12,9 @@ export class TabPanelComponent implements OnInit {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('stampCanvas', { static: true })
   stampCanvas!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('circleStampCanvas', { static: true }) circleStampCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('circleStampCanvas', { static: true })
+  circleStampCanvas!: ElementRef<HTMLCanvasElement>;
+  stampDataURL: string | null = null;
 
   isDrawing = false;
   prevX = 0;
@@ -21,7 +23,7 @@ export class TabPanelComponent implements OnInit {
   stampCtx: CanvasRenderingContext2D | null = null;
   currentColor = 'black';
   selectedColor: string = 'black';
-  stampColor: string = 'black'; 
+  stampColor: string = 'black';
   activeTab: string = 'Canvas';
   textInput: string = '';
   fonts: string[] = [
@@ -58,7 +60,7 @@ export class TabPanelComponent implements OnInit {
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.stampCtx = this.stampCanvas.nativeElement.getContext('2d');
     this.redrawStrokes();
-    this.updateStamp(); 
+    this.updateStamp();
     this.circleStampCtx = this.circleStampCanvas.nativeElement.getContext('2d');
     this.updateCircleStamp();
   }
@@ -175,7 +177,7 @@ export class TabPanelComponent implements OnInit {
         this.stampCanvas.nativeElement.height
       );
       this.stampCtx.font = '20px Arial';
-      this.stampCtx.fillStyle = stampColor; 
+      this.stampCtx.fillStyle = stampColor;
       this.stampCtx.strokeStyle = stampColor;
       const canvasWidth = this.stampCanvas.nativeElement.width;
       const canvasHeight = this.stampCanvas.nativeElement.height;
@@ -203,13 +205,17 @@ export class TabPanelComponent implements OnInit {
 
   updateCircleStamp() {
     if (this.circleStampCtx) {
-      const textTop = this.circleTextTop.trim() !== '' ? this.circleTextTop : '';
-      const textCenter = this.circleTextCenter.trim() !== '' ? this.circleTextCenter : '';
-      const textBottom = this.circleTextBottom.trim() !== '' ? this.circleTextBottom : '';
-      const stampName = this.circleStampName.trim() !== '' ? this.circleStampName : '';
-  
+      const textTop =
+        this.circleTextTop.trim() !== '' ? this.circleTextTop : '';
+      const textCenter =
+        this.circleTextCenter.trim() !== '' ? this.circleTextCenter : '';
+      const textBottom =
+        this.circleTextBottom.trim() !== '' ? this.circleTextBottom : '';
+      const stampName =
+        this.circleStampName.trim() !== '' ? this.circleStampName : '';
+
       const stampColor = this.circleStampColor;
-  
+
       this.circleStampCtx.clearRect(
         0,
         0,
@@ -217,44 +223,48 @@ export class TabPanelComponent implements OnInit {
         this.circleStampCanvas.nativeElement.height
       );
       this.circleStampCtx.font = '20px Arial';
-      this.circleStampCtx.fillStyle = stampColor; 
+      this.circleStampCtx.fillStyle = stampColor;
       this.circleStampCtx.strokeStyle = stampColor;
       const canvasWidth = this.circleStampCanvas.nativeElement.width;
       const canvasHeight = this.circleStampCanvas.nativeElement.height;
       const x = canvasWidth / 2;
       const y = canvasHeight / 2;
-  
+
       // Calculate text width for each line
       const textTopWidth = this.circleStampCtx.measureText(textTop).width;
       const textCenterWidth = this.circleStampCtx.measureText(textCenter).width;
       const textBottomWidth = this.circleStampCtx.measureText(textBottom).width;
-  
+
       if (this.circleShowBorder) {
         // Calculate the outer circle radius based on the canvas size
         const outerRadius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
-  
+
         // Calculate the inner circle radius
-        const innerRadius = outerRadius - 3; 
-  
+        const innerRadius = outerRadius - 3;
+
         // Draw outer circle
         this.circleStampCtx.beginPath();
         this.circleStampCtx.arc(x, y, outerRadius, 0, 2 * Math.PI);
         this.circleStampCtx.lineWidth = 1;
         this.circleStampCtx.stroke();
-  
+
         // Draw inner circle with thinner border
         this.circleStampCtx.beginPath();
         this.circleStampCtx.arc(x, y, innerRadius, 0, 2 * Math.PI);
-        this.circleStampCtx.lineWidth = 1; 
+        this.circleStampCtx.lineWidth = 1;
         this.circleStampCtx.stroke();
       }
-  
+
       // Adjust x position for each line to center horizontally
       this.circleStampCtx.fillText(textTop, x - textTopWidth / 2, y - 60);
       this.circleStampCtx.fillText(textCenter, x - textCenterWidth / 2, y + 6);
       this.circleStampCtx.fillText(textBottom, x - textBottomWidth / 2, y + 80);
     }
   }
-  
-  
+
+  saveStamp() {
+    if (this.stampCanvas) {
+      this.stampDataURL = this.stampCanvas.nativeElement.toDataURL('image/png');
+    }
+  }
 }
