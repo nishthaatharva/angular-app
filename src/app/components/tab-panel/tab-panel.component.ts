@@ -10,16 +10,17 @@ import { FormsModule } from '@angular/forms';
 })
 export class TabPanelComponent implements OnInit {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('stampCanvas', { static: true }) stampCanvas!: ElementRef<HTMLCanvasElement>;
-  
+  @ViewChild('stampCanvas', { static: true })
+  stampCanvas!: ElementRef<HTMLCanvasElement>;
+
   isDrawing = false;
   prevX = 0;
   prevY = 0;
   ctx: CanvasRenderingContext2D | null = null;
   stampCtx: CanvasRenderingContext2D | null = null;
   currentColor = 'black';
-  selectedColor: string = 'black'; // Color selected for other components
-  stampColor: string = 'black'; // Color selected for stamping
+  selectedColor: string = 'black';
+  stampColor: string = 'black'; // New variable for stamp color
   activeTab: string = 'Canvas';
   textInput: string = '';
   fonts: string[] = [
@@ -43,30 +44,32 @@ export class TabPanelComponent implements OnInit {
   textBottom: string = '';
   stampName: string = '';
   showBorder: boolean = false;
-  
+
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.stampCtx = this.stampCanvas.nativeElement.getContext('2d');
     this.redrawStrokes();
     this.updateStamp(); // Initial update when component loads
   }
-  
+
   selectTab(tab: string) {
     this.activeTab = tab;
   }
-  
+
   mousedown(event: MouseEvent) {
-    this.isDrawing = true;
-    this.prevX = event.clientX - this.canvas.nativeElement.offsetLeft;
-    this.prevY = event.clientY - this.canvas.nativeElement.offsetTop;
+    if (this.activeTab === 'Canvas') {
+      this.isDrawing = true;
+      this.prevX = event.clientX - this.canvas.nativeElement.offsetLeft;
+      this.prevY = event.clientY - this.canvas.nativeElement.offsetTop;
+    }
   }
-  
+
   mouseup() {
     this.isDrawing = false;
   }
-  
+
   mousemove(event: MouseEvent) {
-    if (this.isDrawing) {
+    if (this.activeTab === 'Canvas' && this.isDrawing) {
       const currentX = event.clientX - this.canvas.nativeElement.offsetLeft;
       const currentY = event.clientY - this.canvas.nativeElement.offsetTop;
       this.draw(this.prevX, this.prevY, currentX, currentY);
@@ -74,7 +77,7 @@ export class TabPanelComponent implements OnInit {
       this.prevY = currentY;
     }
   }
-  
+
   draw(startX: number, startY: number, endX: number, endY: number) {
     if (this.ctx) {
       this.ctx.beginPath();
@@ -92,9 +95,9 @@ export class TabPanelComponent implements OnInit {
       });
     }
   }
-  
+
   clearCanvas() {
-    if (this.ctx) {
+    if (this.activeTab === 'Canvas' && this.ctx) {
       this.ctx.clearRect(
         0,
         0,
@@ -105,14 +108,16 @@ export class TabPanelComponent implements OnInit {
       this.currentColor = 'black';
     }
   }
-  
+
   setColor(color: string) {
-    this.currentColor = color;
-    this.redrawStrokes();
+    if (this.activeTab === 'Canvas') {
+      this.currentColor = color;
+      this.redrawStrokes();
+    }
   }
-  
+
   redrawStrokes() {
-    if (this.ctx) {
+    if (this.activeTab === 'Canvas' && this.ctx) {
       this.ctx.clearRect(
         0,
         0,
@@ -129,30 +134,32 @@ export class TabPanelComponent implements OnInit {
       }
     }
   }
-  
+
   setColor1(color: string) {
     this.selectedColor = color;
   }
-  
+
   setStampColor(color: string) {
     this.stampColor = color;
     this.updateStamp();
   }
-  
+
   stamp() {
     this.updateStamp();
   }
-  
+
   updateStamp() {
-    if (this.stampCtx) {
+    if (this.activeTab === 'Tab3' && this.stampCtx) {
       const textTop = this.textTop.trim() !== '' ? this.textTop : 'Top';
-      const textCenter = this.textCenter.trim() !== '' ? this.textCenter : 'Center';
-      const textBottom = this.textBottom.trim() !== '' ? this.textBottom : 'Bottom';
+      const textCenter =
+        this.textCenter.trim() !== '' ? this.textCenter : 'Center';
+      const textBottom =
+        this.textBottom.trim() !== '' ? this.textBottom : 'Bottom';
       const stampName = this.stampName.trim() !== '' ? this.stampName : 'Stamp';
-      
+
       // Use separate variable for stamp color
       const stampColor = this.stampColor;
-      
+
       this.stampCtx.clearRect(
         0,
         0,
@@ -160,24 +167,20 @@ export class TabPanelComponent implements OnInit {
         this.stampCanvas.nativeElement.height
       );
       this.stampCtx.font = '20px Arial';
-      this.stampCtx.fillStyle = stampColor; // Use stamp color variable
-      const textWidth = this.stampCtx.measureText(textTop).width;
-      const textHeight = 20; // Assuming font size of 20px
+      this.stampCtx.fillStyle = stampColor; // Set stamp color
       const canvasWidth = this.stampCanvas.nativeElement.width;
       const canvasHeight = this.stampCanvas.nativeElement.height;
-      const x = (canvasWidth - textWidth) / 2;
-      const y = (canvasHeight + textHeight) / 2;
+      const x = canvasWidth / 2;
+      const y = canvasHeight / 2;
       if (this.showBorder) {
-        this.stampCtx.strokeRect(
-          x - 5,
-          y - textHeight - 5,
-          textWidth + 10,
-          textHeight * 3 + 10
-        );
+        // Calculate the border dimensions based on the canvas size
+        const borderWidth = canvasWidth - 20;
+        const borderHeight = canvasHeight - 20;
+        this.stampCtx.strokeRect(10, 10, borderWidth, borderHeight);
       }
-      this.stampCtx.fillText(textTop, x, y - textHeight * 2);
+      this.stampCtx.fillText(textTop, x, y - 40);
       this.stampCtx.fillText(textCenter, x, y);
-      this.stampCtx.fillText(textBottom, x, y + textHeight * 2);
+      this.stampCtx.fillText(textBottom, x, y + 40);
     }
   }
 }
