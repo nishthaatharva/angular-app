@@ -166,6 +166,7 @@ export class TabPanelComponent implements OnInit {
       );
       this.stampCtx.font = '20px Arial';
       this.stampCtx.fillStyle = stampColor; // Set stamp color
+      this.stampCtx.strokeStyle = stampColor;
       const canvasWidth = this.stampCanvas.nativeElement.width;
       const canvasHeight = this.stampCanvas.nativeElement.height;
       const x = canvasWidth / 2;
