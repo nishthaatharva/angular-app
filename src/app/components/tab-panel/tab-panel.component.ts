@@ -234,7 +234,7 @@ export class TabPanelComponent implements OnInit {
         const outerRadius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
   
         // Calculate the inner circle radius
-        const innerRadius = outerRadius - 3; // Adjust the value as needed
+        const innerRadius = outerRadius - 3; 
   
         // Draw outer circle
         this.circleStampCtx.beginPath();
@@ -245,7 +245,7 @@ export class TabPanelComponent implements OnInit {
         // Draw inner circle with thinner border
         this.circleStampCtx.beginPath();
         this.circleStampCtx.arc(x, y, innerRadius, 0, 2 * Math.PI);
-        this.circleStampCtx.lineWidth = 1; // Set thinner line width
+        this.circleStampCtx.lineWidth = 1; 
         this.circleStampCtx.stroke();
       }
   
