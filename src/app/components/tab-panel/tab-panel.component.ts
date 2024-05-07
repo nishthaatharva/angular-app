@@ -234,7 +234,7 @@ export class TabPanelComponent implements OnInit {
         const outerRadius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
   
         // Calculate the inner circle radius
-        const innerRadius = outerRadius - 5; // Adjust the value as needed
+        const innerRadius = outerRadius - 3; // Adjust the value as needed
   
         // Draw outer circle
         this.circleStampCtx.beginPath();
