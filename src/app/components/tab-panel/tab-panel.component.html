@@ -131,6 +131,7 @@
               [(ngModel)]="textTop"
               class="form-control"
               placeholder="Text Top"
+              (input)="updateStamp()"
             />
           </div>
           <div class="col-md-6 mb-3">
@@ -139,6 +140,7 @@
               [(ngModel)]="textCenter"
               class="form-control"
               placeholder="Text Center"
+              (input)="updateStamp()"
             />
           </div>
           <div class="col-md-6 mb-3">
@@ -147,6 +149,7 @@
               [(ngModel)]="textBottom"
               class="form-control"
               placeholder="Text Bottom"
+              (input)="updateStamp()"
             />
           </div>
           <div class="col-md-6 mb-3">
@@ -155,19 +158,25 @@
               [(ngModel)]="stampName"
               class="form-control"
               placeholder="Stamp Name"
+              (input)="updateStamp()"
             />
           </div>
           <div class="col-md-12">
             <label>
-              <input type="checkbox" [(ngModel)]="showBorder" />
+              <input
+                type="checkbox"
+                [(ngModel)]="showBorder"
+                (change)="updateStamp()"
+              />
               Square Border
             </label>
           </div>
           <div class="col-md-12">
-            <input type="color" [(ngModel)]="stampColor" />
-          </div>
-          <div class="col-md-12" style="margin-top: 20px">
-            <button class="btn btn-primary" (click)="stamp()">Stamp</button>
+            <input
+              type="color"
+              [(ngModel)]="stampColor"
+              (input)="updateStamp()"
+            />
           </div>
         </div>
         <div style="margin-top: 20px">

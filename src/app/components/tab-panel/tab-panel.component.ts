@@ -10,8 +10,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class TabPanelComponent implements OnInit {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('stampCanvas', { static: true })
-  stampCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('stampCanvas', { static: true }) stampCanvas!: ElementRef<HTMLCanvasElement>;
+  
   isDrawing = false;
   prevX = 0;
   prevY = 0;
@@ -43,22 +43,28 @@ export class TabPanelComponent implements OnInit {
   textBottom: string = '';
   stampName: string = '';
   showBorder: boolean = false;
+  
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.stampCtx = this.stampCanvas.nativeElement.getContext('2d');
     this.redrawStrokes();
+    this.updateStamp(); // Initial update when component loads
   }
+  
   selectTab(tab: string) {
     this.activeTab = tab;
   }
+  
   mousedown(event: MouseEvent) {
     this.isDrawing = true;
     this.prevX = event.clientX - this.canvas.nativeElement.offsetLeft;
     this.prevY = event.clientY - this.canvas.nativeElement.offsetTop;
   }
+  
   mouseup() {
     this.isDrawing = false;
   }
+  
   mousemove(event: MouseEvent) {
     if (this.isDrawing) {
       const currentX = event.clientX - this.canvas.nativeElement.offsetLeft;
@@ -68,6 +74,7 @@ export class TabPanelComponent implements OnInit {
       this.prevY = currentY;
     }
   }
+  
   draw(startX: number, startY: number, endX: number, endY: number) {
     if (this.ctx) {
       this.ctx.beginPath();
@@ -85,6 +92,7 @@ export class TabPanelComponent implements OnInit {
       });
     }
   }
+  
   clearCanvas() {
     if (this.ctx) {
       this.ctx.clearRect(
@@ -97,10 +105,12 @@ export class TabPanelComponent implements OnInit {
       this.currentColor = 'black';
     }
   }
+  
   setColor(color: string) {
     this.currentColor = color;
     this.redrawStrokes();
   }
+  
   redrawStrokes() {
     if (this.ctx) {
       this.ctx.clearRect(
@@ -119,19 +129,25 @@ export class TabPanelComponent implements OnInit {
       }
     }
   }
+  
   setColor1(color: string) {
     this.selectedColor = color;
   }
+  
   setStampColor(color: string) {
     this.stampColor = color;
+    this.updateStamp();
   }
+  
   stamp() {
+    this.updateStamp();
+  }
+  
+  updateStamp() {
     if (this.stampCtx) {
       const textTop = this.textTop.trim() !== '' ? this.textTop : 'Top';
-      const textCenter =
-        this.textCenter.trim() !== '' ? this.textCenter : 'Center';
-      const textBottom =
-        this.textBottom.trim() !== '' ? this.textBottom : 'Bottom';
+      const textCenter = this.textCenter.trim() !== '' ? this.textCenter : 'Center';
+      const textBottom = this.textBottom.trim() !== '' ? this.textBottom : 'Bottom';
       const stampName = this.stampName.trim() !== '' ? this.stampName : 'Stamp';
       
       // Use separate variable for stamp color
