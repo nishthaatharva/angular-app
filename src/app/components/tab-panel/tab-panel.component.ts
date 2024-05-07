@@ -150,12 +150,12 @@ export class TabPanelComponent implements OnInit {
 
   updateStamp() {
     if (this.activeTab === 'Tab3' && this.stampCtx) {
-      const textTop = this.textTop.trim() !== '' ? this.textTop : 'Top';
+      const textTop = this.textTop.trim() !== '' ? this.textTop : '';
       const textCenter =
-        this.textCenter.trim() !== '' ? this.textCenter : 'Center';
+        this.textCenter.trim() !== '' ? this.textCenter : '';
       const textBottom =
-        this.textBottom.trim() !== '' ? this.textBottom : 'Bottom';
-      const stampName = this.stampName.trim() !== '' ? this.stampName : 'Stamp';
+        this.textBottom.trim() !== '' ? this.textBottom : '';
+      const stampName = this.stampName.trim() !== '' ? this.stampName : '';
 
       // Use separate variable for stamp color
       const stampColor = this.stampColor;
