@@ -207,9 +207,9 @@ export class TabPanelComponent implements OnInit {
       const textCenter = this.circleTextCenter.trim() !== '' ? this.circleTextCenter : '';
       const textBottom = this.circleTextBottom.trim() !== '' ? this.circleTextBottom : '';
       const stampName = this.circleStampName.trim() !== '' ? this.circleStampName : '';
-
+  
       const stampColor = this.circleStampColor;
-
+  
       this.circleStampCtx.clearRect(
         0,
         0,
@@ -223,25 +223,38 @@ export class TabPanelComponent implements OnInit {
       const canvasHeight = this.circleStampCanvas.nativeElement.height;
       const x = canvasWidth / 2;
       const y = canvasHeight / 2;
-
+  
       // Calculate text width for each line
       const textTopWidth = this.circleStampCtx.measureText(textTop).width;
       const textCenterWidth = this.circleStampCtx.measureText(textCenter).width;
       const textBottomWidth = this.circleStampCtx.measureText(textBottom).width;
-
+  
       if (this.circleShowBorder) {
-        // Calculate the border radius based on the canvas size
-        const borderRadius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
+        // Calculate the outer circle radius based on the canvas size
+        const outerRadius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
+  
+        // Calculate the inner circle radius
+        const innerRadius = outerRadius - 5; // Adjust the value as needed
+  
+        // Draw outer circle
         this.circleStampCtx.beginPath();
-        this.circleStampCtx.arc(x, y, borderRadius, 0, 2 * Math.PI);
-        this.circleStampCtx.lineWidth = 2;
+        this.circleStampCtx.arc(x, y, outerRadius, 0, 2 * Math.PI);
+        this.circleStampCtx.lineWidth = 1;
+        this.circleStampCtx.stroke();
+  
+        // Draw inner circle with thinner border
+        this.circleStampCtx.beginPath();
+        this.circleStampCtx.arc(x, y, innerRadius, 0, 2 * Math.PI);
+        this.circleStampCtx.lineWidth = 1; // Set thinner line width
         this.circleStampCtx.stroke();
       }
-
+  
       // Adjust x position for each line to center horizontally
       this.circleStampCtx.fillText(textTop, x - textTopWidth / 2, y - 60);
       this.circleStampCtx.fillText(textCenter, x - textCenterWidth / 2, y + 6);
       this.circleStampCtx.fillText(textBottom, x - textBottomWidth / 2, y + 80);
     }
   }
+  
+  
 }
