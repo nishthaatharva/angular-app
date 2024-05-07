@@ -28,7 +28,16 @@
         [class.active]="activeTab === 'Tab3'"
         (click)="selectTab('Tab3')"
         style="cursor: pointer"
-        >Stamp Customization</a
+        >Stamp Rectangle</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="activeTab === 'Tab4'"
+        (click)="selectTab('Tab4')"
+        style="cursor: pointer"
+        >Stamp Circle</a
       >
     </li>
   </ul>
@@ -123,9 +132,8 @@
       [class.active]="activeTab === 'Tab3'"
     >
       <div style="text-align: center; width: 70%; margin: 0 auto">
-        <p>Stamp Customization</p>
+        <p>Stamp Rectangle</p>
         <div class="row">
-          <!-- Left div with inputs -->
           <div class="col-md-6">
             <input
               type="text"
@@ -169,7 +177,6 @@
               (input)="updateStamp()"
             />
           </div>
-          <!-- Right div with canvas -->
           <div class="col-md-6">
             <canvas
               #stampCanvas
@@ -177,6 +184,32 @@
               height="200"
               style="border: 1px solid rgb(200, 200, 200)"
             ></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      [class.show]="activeTab === 'Tab4'"
+      [class.active]="activeTab === 'Tab4'"
+    >
+      <div style="text-align: center; width: 70%; margin: 0 auto">
+        <p>Stamp Circle</p>
+        <div class="row">
+          <!-- Left div with inputs -->
+          <div class="col-md-6">
+            <input type="text" [(ngModel)]="circleTextTop" class="form-control mb-3" placeholder="Text Top" (input)="updateCircleStamp()" />
+            <input type="text" [(ngModel)]="circleTextCenter" class="form-control mb-3" placeholder="Text Center" (input)="updateCircleStamp()" />
+            <input type="text" [(ngModel)]="circleTextBottom" class="form-control mb-3" placeholder="Text Bottom" (input)="updateCircleStamp()" />
+            <input type="text" [(ngModel)]="circleStampName" class="form-control mb-3" placeholder="Stamp Name" (input)="updateCircleStamp()" />
+            <label style="margin-right: 10px">
+              <input type="checkbox" [(ngModel)]="circleShowBorder" (change)="updateCircleStamp()" /> Border
+            </label>
+            <input type="color" [(ngModel)]="circleStampColor" (input)="updateCircleStamp()" />
+          </div>
+          <!-- Right div with canvas -->
+          <div class="col-md-6">
+            <canvas #circleStampCanvas width="400" height="200" style="border: 1px solid rgb(200, 200, 200)"></canvas>
           </div>
         </div>
       </div>
