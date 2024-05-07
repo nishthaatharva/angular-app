@@ -125,67 +125,59 @@
       <div style="text-align: center; width: 70%; margin: 0 auto">
         <p>Stamp Customization</p>
         <div class="row">
-          <div class="col-md-6 mb-3">
+          <!-- Left div with inputs -->
+          <div class="col-md-6">
             <input
               type="text"
               [(ngModel)]="textTop"
-              class="form-control"
+              class="form-control mb-3"
               placeholder="Text Top"
               (input)="updateStamp()"
             />
-          </div>
-          <div class="col-md-6 mb-3">
             <input
               type="text"
               [(ngModel)]="textCenter"
-              class="form-control"
+              class="form-control mb-3"
               placeholder="Text Center"
               (input)="updateStamp()"
             />
-          </div>
-          <div class="col-md-6 mb-3">
             <input
               type="text"
               [(ngModel)]="textBottom"
-              class="form-control"
+              class="form-control mb-3"
               placeholder="Text Bottom"
               (input)="updateStamp()"
             />
-          </div>
-          <div class="col-md-6 mb-3">
             <input
               type="text"
               [(ngModel)]="stampName"
-              class="form-control"
+              class="form-control mb-3"
               placeholder="Stamp Name"
               (input)="updateStamp()"
             />
-          </div>
-          <div class="col-md-12">
-            <label>
+            <label style="margin-right: 10px">
               <input
                 type="checkbox"
                 [(ngModel)]="showBorder"
                 (change)="updateStamp()"
               />
-              Square Border
+              Border
             </label>
-          </div>
-          <div class="col-md-12">
             <input
               type="color"
               [(ngModel)]="stampColor"
               (input)="updateStamp()"
             />
           </div>
-        </div>
-        <div style="margin-top: 20px">
-          <canvas
-            #stampCanvas
-            width="400"
-            height="200"
-            style="border: 1px solid rgb(200, 200, 200)"
-          ></canvas>
+          <!-- Right div with canvas -->
+          <div class="col-md-6">
+            <canvas
+              #stampCanvas
+              width="400"
+              height="200"
+              style="border: 1px solid rgb(200, 200, 200)"
+            ></canvas>
+          </div>
         </div>
       </div>
     </div>

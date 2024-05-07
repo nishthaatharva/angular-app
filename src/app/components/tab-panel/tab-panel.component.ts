@@ -154,10 +154,10 @@ export class TabPanelComponent implements OnInit {
       const textCenter = this.textCenter.trim() !== '' ? this.textCenter : '';
       const textBottom = this.textBottom.trim() !== '' ? this.textBottom : '';
       const stampName = this.stampName.trim() !== '' ? this.stampName : '';
-  
+
       // Use separate variable for stamp color
       const stampColor = this.stampColor;
-  
+
       this.stampCtx.clearRect(
         0,
         0,
@@ -171,19 +171,19 @@ export class TabPanelComponent implements OnInit {
       const canvasHeight = this.stampCanvas.nativeElement.height;
       const x = canvasWidth / 2;
       const y = canvasHeight / 2;
-      
+
       // Calculate text width for each line
       const textTopWidth = this.stampCtx.measureText(textTop).width;
       const textCenterWidth = this.stampCtx.measureText(textCenter).width;
       const textBottomWidth = this.stampCtx.measureText(textBottom).width;
-  
+
       if (this.showBorder) {
         // Calculate the border dimensions based on the canvas size
         const borderWidth = canvasWidth - 20;
         const borderHeight = canvasHeight - 20;
         this.stampCtx.strokeRect(10, 10, borderWidth, borderHeight);
       }
-  
+
       // Adjust x position for each line to center horizontally
       this.stampCtx.fillText(textTop, x - textTopWidth / 2, y - 60);
       this.stampCtx.fillText(textCenter, x - textCenterWidth / 2, y + 6);
