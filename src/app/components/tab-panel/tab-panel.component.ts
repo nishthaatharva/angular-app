@@ -251,6 +251,18 @@ export class TabPanelComponent implements OnInit {
         this.circleStampCtx.stroke();
       }
 
+      // Draw the filled star in the bottom center between the inner and additional circles
+      const starSize = 15; 
+      this.drawStar(
+        this.circleStampCtx,
+        x,
+        canvasHeight - 35,
+        starSize,
+        5,
+        0.5,
+        this.circleStampColor
+      );
+
       // Draw the outer circle if the checkbox is checked
       if (this.circleShowBorder) {
         // Calculate the outer circle radius based on the canvas size
@@ -282,6 +294,32 @@ export class TabPanelComponent implements OnInit {
     }
   }
 
+  // Helper function to draw a star
+  drawStar(
+    ctx: CanvasRenderingContext2D,
+    cx: number,
+    cy: number,
+    size: number,
+    points: number,
+    inset: number,
+    color: string
+  ) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    for (let i = 0; i < 2 * points; i++) {
+      const angle = (i * Math.PI) / points - Math.PI / 2;
+      const radius = i % 2 === 0 ? size * inset : size;
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
+      if (i === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    }
+    ctx.closePath();
+    ctx.fill();
+  }
   saveStamp() {
     if (this.stampCanvas) {
       this.stampDataURL = this.stampCanvas.nativeElement.toDataURL('image/png');
