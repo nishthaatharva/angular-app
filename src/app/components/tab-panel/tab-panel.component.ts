@@ -211,8 +211,9 @@ export class TabPanelComponent implements OnInit {
       const textCenter = this.circleTextCenter.trim() !== '' ? this.circleTextCenter : '';
       const textBottom = this.circleTextBottom.trim() !== '' ? this.circleTextBottom : '';
       const stampName = this.circleStampName.trim() !== '' ? this.circleStampName : '';
+    
       const stampColor = this.circleStampColor;
-  
+    
       // Clear the canvas before redrawing
       this.circleStampCtx.clearRect(
         0,
@@ -220,26 +221,26 @@ export class TabPanelComponent implements OnInit {
         this.circleStampCanvas.nativeElement.width,
         this.circleStampCanvas.nativeElement.height
       );
-  
+    
       // Calculate the canvas dimensions
       const canvasWidth = this.circleStampCanvas.nativeElement.width;
       const canvasHeight = this.circleStampCanvas.nativeElement.height;
       const x = canvasWidth / 2;
       const y = canvasHeight / 2;
-  
+    
       // Calculate text width for each line
       const textTopWidth = this.circleStampCtx.measureText(textTop).width;
       const textCenterWidth = this.circleStampCtx.measureText(textCenter).width;
       const textBottomWidth = this.circleStampCtx.measureText(textBottom).width;
-  
+    
       // Draw additional circle if the checkbox is checked, regardless of whether the outer circle is shown
       if (this.showAdditionalCircle) {
-        // Calculate the inner and additional circle radii based on the canvas size
+        // Calculate the inner circle radius based on the canvas size
         const innerRadius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
+    
+        // Draw the additional circle with space between inner and additional circle
         const additionalRadius = (innerRadius / 3) * 2;
         const spaceBetween = innerRadius / 5; // Adjust this value for the desired space
-  
-        // Draw the additional circle with space between inner and additional circle
         this.circleStampCtx.beginPath();
         this.circleStampCtx.arc(x, y, additionalRadius, 0, 2 * Math.PI);
         this.circleStampCtx.lineWidth = 1;
@@ -251,19 +252,30 @@ export class TabPanelComponent implements OnInit {
         this.circleStampCtx.textAlign = 'center';
         this.circleStampCtx.textBaseline = 'middle';
   
-        const angle = Math.PI / 4; // Angle to start writing the text
-        const radius = additionalRadius + 20; // Distance from the center of the circle
-        const charAngle = Math.PI / 12; // Angle between characters
-  
-        for (let i = 0; i < textTop.length; i++) {
-          const xPos = x + radius * Math.cos(angle + i * charAngle);
-          const yPos = y + radius * Math.sin(angle + i * charAngle);
+        const charCount = textTop.length;
+        const charAngle = Math.PI / 10; // Angle between characters
+    
+        // Calculate the total width of the text
+        const totalTextWidth = textTopWidth * charCount;
+    
+        // Calculate the angle to start writing text to center it along the circle
+        const startAngle = Math.PI * 1.5 - (totalTextWidth / (additionalRadius + 20)) * charAngle / 2;
+    
+        for (let i = 0; i < charCount; i++) {
+          // Calculate angle for each character position
+          const currentAngle = startAngle + i * charAngle;
+    
+          // Calculate x and y positions for the character
+          const xPos = x + (additionalRadius + 20) * Math.cos(currentAngle);
+          const yPos = y + (additionalRadius + 20) * Math.sin(currentAngle);
+    
+          // Draw the character
           this.circleStampCtx.fillText(textTop[i], xPos, yPos);
         }
       }
   
       // Draw the filled star in the bottom center between the inner and additional circles
-      const starSize = 15; 
+      const starSize = 15;
       this.drawStar(
         this.circleStampCtx,
         x,
@@ -273,35 +285,42 @@ export class TabPanelComponent implements OnInit {
         0.5,
         this.circleStampColor
       );
-  
+    
       // Draw the outer circle if the checkbox is checked
       if (this.circleShowBorder) {
         // Calculate the outer circle radius based on the canvas size
         const outerRadius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
-  
+    
         // Calculate the inner circle radius
         const innerRadius = outerRadius - 3;
-  
+    
         // Draw outer circle
         this.circleStampCtx.beginPath();
         this.circleStampCtx.arc(x, y, outerRadius, 0, 2 * Math.PI);
         this.circleStampCtx.lineWidth = 1;
         this.circleStampCtx.stroke();
-  
+    
         // Draw inner circle with thinner border
         this.circleStampCtx.beginPath();
         this.circleStampCtx.arc(x, y, innerRadius, 0, 2 * Math.PI);
         this.circleStampCtx.lineWidth = 1;
         this.circleStampCtx.stroke();
       }
-  
-      // Draw text center
-      this.circleStampCtx.fillText(textCenter, x - textCenterWidth / 2, y + 6);
-  
-      // Draw text bottom
-      this.circleStampCtx.fillText(textBottom, x - textBottomWidth / 2, y + 80);
+    
+      // Adjust x position for each line to center horizontally
+      this.circleStampCtx.font = '20px Arial';
+      this.circleStampCtx.fillStyle = stampColor;
+      this.circleStampCtx.strokeStyle = stampColor;
+      this.circleStampCtx.textAlign = 'center';
+      this.circleStampCtx.textBaseline = 'middle';
+      this.circleStampCtx.fillText(textCenter, x, y + 6);
+      this.circleStampCtx.fillText(textBottom, x, y + 80);
     }
   }
+  
+  
+  
+  
   
 
   // Helper function to draw a star
