@@ -222,13 +222,6 @@
             />
             <input
               type="text"
-              [(ngModel)]="circleTextBottom"
-              class="form-control mb-3"
-              placeholder="Text Bottom"
-              (input)="updateCircleStamp()"
-            />
-            <input
-              type="text"
               [(ngModel)]="circleStampName"
               class="form-control mb-3"
               placeholder="Stamp Name"
@@ -265,6 +258,16 @@
               height="300"
               style="border: 1px solid rgb(200, 200, 200)"
             ></canvas>
+            <button class="btn btn-primary mt-3" (click)="saveCircleStamp()">
+              Save Circle Stamp
+            </button>
+            <!-- Display saved stamped circle image -->
+            <div class="mt-3">
+              <!-- Conditionally display saved image -->
+              @if (circleStampDataURL) {
+              <img [src]="circleStampDataURL" alt="Stamped Circle Image" />
+              }
+            </div>
           </div>
         </div>
       </div>

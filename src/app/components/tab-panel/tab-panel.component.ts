@@ -57,6 +57,7 @@ export class TabPanelComponent implements OnInit {
   circleStampCtx: CanvasRenderingContext2D | null = null;
 
   showAdditionalCircle: boolean = false;
+  circleStampDataURL: string | null = null;
 
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -209,8 +210,6 @@ export class TabPanelComponent implements OnInit {
     if (this.circleStampCtx) {
       const textTop = this.circleTextTop.trim() !== '' ? this.circleTextTop : '';
       const textCenter = this.circleTextCenter.trim() !== '' ? this.circleTextCenter : '';
-      const textBottom = this.circleTextBottom.trim() !== '' ? this.circleTextBottom : '';
-      const stampName = this.circleStampName.trim() !== '' ? this.circleStampName : '';
       const stampColor = this.circleStampColor;
   
       // Clear the canvas before redrawing
@@ -230,7 +229,6 @@ export class TabPanelComponent implements OnInit {
       // Calculate text width for each line
       const textTopWidth = this.circleStampCtx.measureText(textTop).width;
       const textCenterWidth = this.circleStampCtx.measureText(textCenter).width;
-      const textBottomWidth = this.circleStampCtx.measureText(textBottom).width;
   
       // Draw text top outside the condition for additional circle
       this.circleStampCtx.font = '20px Arial';
@@ -238,7 +236,7 @@ export class TabPanelComponent implements OnInit {
       this.circleStampCtx.textAlign = 'center';
       this.circleStampCtx.textBaseline = 'middle';
       const charCount = textTop.length;
-      const charAngle = Math.PI / 18; // Angle between characters
+      const charAngle = Math.PI / 25; // Angle between characters
   
       // Calculate the total width of the text
       const totalTextWidth = textTopWidth * charCount;
@@ -313,13 +311,11 @@ export class TabPanelComponent implements OnInit {
         this.circleStampCtx.stroke();
       }
   
-      // Draw center and bottom text
+      // Draw center text
       this.circleStampCtx.fillText(textCenter, x, y + 6);
-      this.circleStampCtx.fillText(textBottom, x, y + 80);
     }
   }
   
-
   // Helper function to draw a star
   drawStar(
     ctx: CanvasRenderingContext2D,
@@ -346,9 +342,18 @@ export class TabPanelComponent implements OnInit {
     ctx.closePath();
     ctx.fill();
   }
+
   saveStamp() {
     if (this.stampCanvas) {
       this.stampDataURL = this.stampCanvas.nativeElement.toDataURL('image/png');
+    }
+  }
+
+  saveCircleStamp() {
+    if (this.circleStampCanvas) {
+      // Get data URL of the canvas
+      this.circleStampDataURL =
+        this.circleStampCanvas.nativeElement.toDataURL('image/png');
     }
   }
 }
