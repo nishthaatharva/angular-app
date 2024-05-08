@@ -225,13 +225,16 @@ export class TabPanelComponent implements OnInit {
       const canvasHeight = this.circleStampCanvas.nativeElement.height;
       const x = canvasWidth / 2;
       const y = canvasHeight / 2;
-  
+      const starSize = 15;
+      const starRadius = starSize / 2;
+       const minDistance = starRadius + 5;
       // Calculate text width for each line
-      const textTopWidth = this.circleStampCtx.measureText(textTop).width;
+      const textTopWidth = textTop.length;
       const textCenterWidth = this.circleStampCtx.measureText(textCenter).width;
-  
+      let fontSize = 20;
+     
       // Draw text top outside the condition for additional circle
-      this.circleStampCtx.font = '20px Arial';
+      this.circleStampCtx.font = `${fontSize}px Arial`;
       this.circleStampCtx.fillStyle = stampColor;
       this.circleStampCtx.textAlign = 'center';
       this.circleStampCtx.textBaseline = 'middle';
@@ -239,12 +242,33 @@ export class TabPanelComponent implements OnInit {
       const charAngle = Math.PI / 25; // Angle between characters
   
       // Calculate the total width of the text
-      const totalTextWidth = textTopWidth * charCount;
+      const totalTextWidth = textTopWidth * 117;
   
       // Calculate the angle to start writing text to center it along the circle
       const startAngle =
         Math.PI * 1.5 - ((totalTextWidth / (canvasWidth / 2 - 30)) * charAngle) / 2;
-  
+      let starOverlapsText = false;
+      
+ // Check if the star overlaps with any character in the text
+        for (let i = 0; i < charCount; i++) {
+            const currentAngle = startAngle + i * charAngle;
+            const xPos = x + (canvasWidth / 2 - 30) * Math.cos(currentAngle);
+            const yPos = y + (canvasWidth / 2 - 30) * Math.sin(currentAngle);
+            const distanceToStar = Math.sqrt((xPos - x) ** 2 + (yPos - (canvasHeight - 35)) ** 2);
+            if (distanceToStar < minDistance) {
+                starOverlapsText = true;
+                break;
+            }
+        }
+
+        // Adjust font size if the star overlaps with the text
+        if (starOverlapsText) {
+            const fontSize = Math.max(20 - (textTop.length - 48), 8); // Adjust the minimum font size as needed
+            this.circleStampCtx.font = `${fontSize}px Arial`; // Decrease font size
+        } else {
+            this.circleStampCtx.font = '20px Arial';
+        }
+
       for (let i = 0; i < charCount; i++) {
         // Calculate angle for each character position
         const currentAngle = startAngle + i * charAngle;
@@ -277,7 +301,7 @@ export class TabPanelComponent implements OnInit {
       }
   
       // Draw the filled star in the bottom center between the inner and additional circles
-      const starSize = 15;
+      
       this.drawStar(
         this.circleStampCtx,
         x,
@@ -310,9 +334,13 @@ export class TabPanelComponent implements OnInit {
         this.circleStampCtx.lineWidth = 1;
         this.circleStampCtx.stroke();
       }
-  
+
       // Draw center text
       this.circleStampCtx.fillText(textCenter, x, y + 6);
+     
+
+        // If the circle is already filled with text, reduce font size if new text is entered
+        
     }
   }
   
