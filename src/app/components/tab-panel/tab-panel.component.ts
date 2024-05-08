@@ -56,6 +56,8 @@ export class TabPanelComponent implements OnInit {
   circleStampColor: string = 'black';
   circleStampCtx: CanvasRenderingContext2D | null = null;
 
+  showAdditionalCircle: boolean = false;
+
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.stampCtx = this.stampCanvas.nativeElement.getContext('2d');
@@ -216,15 +218,15 @@ export class TabPanelComponent implements OnInit {
 
       const stampColor = this.circleStampColor;
 
+      // Clear the canvas before redrawing
       this.circleStampCtx.clearRect(
         0,
         0,
         this.circleStampCanvas.nativeElement.width,
         this.circleStampCanvas.nativeElement.height
       );
-      this.circleStampCtx.font = '20px Arial';
-      this.circleStampCtx.fillStyle = stampColor;
-      this.circleStampCtx.strokeStyle = stampColor;
+
+      // Calculate the canvas dimensions
       const canvasWidth = this.circleStampCanvas.nativeElement.width;
       const canvasHeight = this.circleStampCanvas.nativeElement.height;
       const x = canvasWidth / 2;
@@ -235,6 +237,21 @@ export class TabPanelComponent implements OnInit {
       const textCenterWidth = this.circleStampCtx.measureText(textCenter).width;
       const textBottomWidth = this.circleStampCtx.measureText(textBottom).width;
 
+      // Draw additional circle if the checkbox is checked, regardless of whether the outer circle is shown
+      if (this.showAdditionalCircle) {
+        // Calculate the inner circle radius based on the canvas size
+        const innerRadius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
+
+        // Draw the additional circle with space between inner and additional circle
+        const additionalRadius = (innerRadius / 3) * 2;
+        const spaceBetween = innerRadius / 5; // Adjust this value for the desired space
+        this.circleStampCtx.beginPath();
+        this.circleStampCtx.arc(x, y, additionalRadius, 0, 2 * Math.PI);
+        this.circleStampCtx.lineWidth = 1;
+        this.circleStampCtx.stroke();
+      }
+
+      // Draw the outer circle if the checkbox is checked
       if (this.circleShowBorder) {
         // Calculate the outer circle radius based on the canvas size
         const outerRadius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
@@ -256,6 +273,9 @@ export class TabPanelComponent implements OnInit {
       }
 
       // Adjust x position for each line to center horizontally
+      this.circleStampCtx.font = '20px Arial';
+      this.circleStampCtx.fillStyle = stampColor;
+      this.circleStampCtx.strokeStyle = stampColor;
       this.circleStampCtx.fillText(textTop, x - textTopWidth / 2, y - 60);
       this.circleStampCtx.fillText(textCenter, x - textCenterWidth / 2, y + 6);
       this.circleStampCtx.fillText(textBottom, x - textBottomWidth / 2, y + 80);
