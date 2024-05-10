@@ -49,6 +49,25 @@
         >PDF scroll</a
       >
     </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="activeTab === 'WebCam'"
+        (click)="selectTab('WebCam')"
+        style="cursor: pointer"
+        >Web cam</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="activeTab === 'LocationPermission'"
+        (click)="selectTab('LocationPermission')"
+        style="cursor: pointer"
+      >
+        Location Permission
+      </a>
+    </li>
   </ul>
   <div class="tab-content">
     <div
@@ -286,6 +305,56 @@
       [class.active]="activeTab === 'Tab5'"
     >
       <app-pdf-scroll></app-pdf-scroll>
+    </div>
+
+    <div
+      class="tab-pane fade"
+      [class.show]="activeTab === 'WebCam'"
+      [class.active]="activeTab === 'WebCam'"
+    >
+      <div style="text-align: center; width: 70%; margin: 0 auto">
+        <p>Webcam</p>
+        <!-- Button to check webcam permissions -->
+        <div>
+          <button class="btn btn-primary" (click)="checkWebcamPermissions()">
+            Check webcam permissions @if(status){
+            <p>Status here: {{ status }}</p>
+            }
+          </button>
+        </div>
+        <div>
+          <webcam
+            [trigger]="$trigger"
+            (imageCapture)="snapShot($event)"
+            [imageQuality]="1"
+          ></webcam>
+          @if(stream){
+          <button class="btn btn-primary" (click)="capturedImage()">
+            {{ btnLabel }}
+          </button>
+          }
+        </div>
+        <!--Preview section-->
+        <div>
+          @if(previewImage){
+          <img [src]="previewImage" height="250" width="250" />
+          <button (click)="proceed()">Procced</button>
+          }
+        </div>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      [class.show]="activeTab === 'LocationPermission'"
+      [class.active]="activeTab === 'LocationPermission'"
+    >
+      <div style="text-align: center; width: 70%; margin: 0 auto">
+        <p>Location Permission</p>
+        <!-- Add a button to prompt for location permission -->
+        <button class="btn btn-primary" (click)="promptLocationPermission()">
+          Prompt Location Permission
+        </button>
+      </div>
     </div>
   </div>
 </div>

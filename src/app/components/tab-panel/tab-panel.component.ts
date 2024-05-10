@@ -1,11 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { WebcamImage, WebcamModule } from 'ngx-webcam';
+import { CommonModule } from '@angular/common';
+import { Observable, Subject } from 'rxjs';
 import { PdfScrollComponent } from '../pdf-scroll/pdf-scroll.component';
 
 @Component({
   selector: 'app-tab-panel',
   standalone: true,
-  imports: [FormsModule, PdfScrollComponent],
+  imports: [FormsModule, WebcamModule, CommonModule, PdfScrollComponent],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
 })
@@ -427,6 +430,88 @@ export class TabPanelComponent implements OnInit {
       // Get data URL of the canvas
       this.circleStampDataURL =
         this.circleStampCanvas.nativeElement.toDataURL('image/png');
+    }
+  }
+  stream: any = null;
+  status: any = null;
+  trigger: Subject<void> = new Subject();
+  previewImage: string = '';
+  btnLabel: string = 'Captured image';
+
+  get $trigger(): Observable<void> {
+    return this.trigger.asObservable();
+  }
+  checkWebcamPermissions() {
+    navigator.mediaDevices
+      .getUserMedia({
+        video: {
+          width: 500,
+          height: 500,
+        },
+      })
+      .then((res) => {
+        console.log('response', res);
+        this.stream = res;
+        this.status = 'my camera is accessing';
+        this.btnLabel = 'Capture Image';
+      })
+      .catch((err) => {
+        console.log(err);
+        if (
+          err?.message ===
+          'The request is not allowed by the user agent or the platform in the current context.'
+        ) {
+          this.status =
+            'Permission denied please try again aprroving the access';
+        } else {
+          this.status = 'you may not having camera system,please try again...';
+        }
+      });
+  }
+
+  capturedImage() {
+    this.trigger.next();
+  }
+
+  snapShot(event: WebcamImage) {
+    console.log(event);
+    this.previewImage = event.imageAsDataUrl;
+    this.btnLabel = 'Re Capture Image';
+  }
+
+  proceed() {
+    console.log(this.previewImage);
+  }
+
+  promptLocationPermission() {
+    // Check if geolocation is supported by the browser
+    if ('geolocation' in navigator) {
+      // Request permission for location access
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // Success callback
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          console.log('Latitude: ' + latitude + ', Longitude: ' + longitude);
+          // Do something with the obtained coordinates
+        },
+        (error) => {
+          // Error callback
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              console.log('User denied the request for Geolocation.');
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.log('Location information is unavailable.');
+              break;
+            case error.TIMEOUT:
+              console.log('The request to get user location timed out.');
+              break;
+          }
+        }
+      );
+    } else {
+      console.log('Geolocation is not supported by this browser.');
     }
   }
 }
