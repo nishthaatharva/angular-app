@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+}
+
+.left-panel {
+  width: 150px;
+  height: 400px;
+  overflow-y: auto;
+}
+
+.right-panel {
+  flex: 1;
+  height: 400px;
+  overflow-y: auto;
+  scroll-behavior: smooth; /* Add smooth scrolling behavior */
+}
+
+.image-container {
+  height: auto;
+  overflow-y: hidden;
+  transition: transform 0.5s ease;
+}
+
+.image-list {
+  padding: 5px;
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}

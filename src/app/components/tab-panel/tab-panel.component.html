@@ -40,6 +40,15 @@
         >Stamp Circle</a
       >
     </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="activeTab === 'Tab5'"
+        (click)="selectTab('Tab5')"
+        style="cursor: pointer"
+        >PDF scroll</a
+      >
+    </li>
   </ul>
   <div class="tab-content">
     <div
@@ -248,7 +257,6 @@
               [(ngModel)]="circleStampColor"
               (input)="updateCircleStamp()"
             />
-           
           </div>
           <!-- Right div with canvas -->
           <div class="col-md-6">
@@ -271,6 +279,13 @@
           </div>
         </div>
       </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      [class.show]="activeTab === 'Tab5'"
+      [class.active]="activeTab === 'Tab5'"
+    >
+      <app-pdf-scroll></app-pdf-scroll>
     </div>
   </div>
 </div>

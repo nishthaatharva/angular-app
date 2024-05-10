@@ -1,10 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PdfScrollComponent } from '../pdf-scroll/pdf-scroll.component';
 
 @Component({
   selector: 'app-tab-panel',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, PdfScrollComponent],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
 })
@@ -212,29 +213,27 @@ export class TabPanelComponent implements OnInit {
     }
   }
 
-  setInitial(){
-    debugger
-    if(this.textTop == '')
-      {
-        this.angleSpace = 0;
-        this.fontSize = 20;
-        this.interval = 20;
-        this.shrinking = false;
-      }
+  setInitial() {
+    debugger;
+    if (this.textTop == '') {
+      this.angleSpace = 0;
+      this.fontSize = 20;
+      this.interval = 20;
+      this.shrinking = false;
+    }
   }
 
   updateCircleStamp() {
-    
     if (this.circleStampCtx) {
       const textTop =
         this.circleTextTop.trim() !== '' ? this.circleTextTop : '';
-      if(textTop.length == 0){
+      if (textTop.length == 0) {
         this.angleSpace = 0;
         this.fontSize = 20;
         this.interval = 20;
         this.shrinking = false;
         this.charCount = 0;
-      }  
+      }
       const textCenter =
         this.circleTextCenter.trim() !== '' ? this.circleTextCenter : '';
       const stampColor = this.circleStampColor;
@@ -256,7 +255,7 @@ export class TabPanelComponent implements OnInit {
       // Calculate text width for each line
       const textTopWidth = textTop.length;
       const textCenterWidth = this.circleStampCtx.measureText(textCenter).width;
-      
+
       let increased = false;
       // Draw text top outside the condition for additional circle
       this.circleStampCtx.font = `${this.fontSize}px Arial`;
@@ -265,9 +264,9 @@ export class TabPanelComponent implements OnInit {
       this.circleStampCtx.textBaseline = 'middle';
       if (this.charCount < textTop.length) {
         increased = true;
-      } else if(this.charCount > textTop.length) {
+      } else if (this.charCount > textTop.length) {
         increased = false;
-        if(!this.shrinking) {
+        if (!this.shrinking) {
           this.interval -= 5;
           this.shrinking = true;
         }
@@ -276,17 +275,17 @@ export class TabPanelComponent implements OnInit {
       let starOverlapsText = false;
       if (this.interval == this.charCount) {
         starOverlapsText = true;
-        if(increased){
+        if (increased) {
           this.interval += 5;
           this.angleSpace += 5;
-          if(this.shrinking){
+          if (this.shrinking) {
             this.shrinking = false;
           }
         } else {
-          if(this.interval > 20) {
+          if (this.interval > 20) {
             this.interval -= 5;
           }
-          if(this.angleSpace > 0) {
+          if (this.angleSpace > 0) {
             this.angleSpace -= 5;
           }
         }
@@ -312,10 +311,9 @@ export class TabPanelComponent implements OnInit {
           break;
         }
       }
-      
+
       // Adjust font size if the star overlaps with the text
       if (starOverlapsText) {
-        
         if (this.fontSize > 12 && increased) {
           this.fontSize = this.fontSize - 1; //Math.max(20 - (textTop.length - 48), 8); // Adjust the minimum font size as needed
         } else if (!increased && this.fontSize <= 20) {

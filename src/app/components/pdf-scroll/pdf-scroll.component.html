@@ -1,0 +1,24 @@
+<div style="text-align: center; width: 70%; margin: 0 auto">
+  <p>PDF Scroll</p>
+  <div class="container">
+    <div class="left-panel">
+      @for (image of images; track $index) {
+      <div class="image-list">
+        <img [src]="image" (click)="showImage($index)" />
+      </div>
+      }
+    </div>
+    <div class="right-panel" #rightPanel>
+      <div
+        class="image-container"
+        [style.transform]="'translateY(' + translateY + 'px)'"
+      >
+        @for (image of images; track $index) {
+        <div class="image-list">
+          <img [src]="image" />
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
