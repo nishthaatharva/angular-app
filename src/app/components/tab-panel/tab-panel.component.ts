@@ -77,15 +77,6 @@ export class TabPanelComponent implements OnInit {
   myAngularxQrCode: string = '';
   latitude: number | null = null;
   longitude: number | null = null;
-  
-
-  customToolbarConfig = [
-    'sidebarToggle',
-    'previousPage',
-    'nextPage',
-    'zoomIn',
-    'zoomOut',
-  ];
 
   ngOnInit() {
     this.shrinking = false;
