@@ -313,7 +313,13 @@
       [class.show]="activeTab === 'Tab5'"
       [class.active]="activeTab === 'Tab5'"
     >
-      <app-pdf-scroll></app-pdf-scroll>
+      <div style="position: relative">
+        <ngx-extended-pdf-viewer
+          src="assets/Blazor.pdf"
+          height="75vh"
+          showSidebarOnLoad="true"
+        ></ngx-extended-pdf-viewer>
+      </div>
     </div>
 
     <div

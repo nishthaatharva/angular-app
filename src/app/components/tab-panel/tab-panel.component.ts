@@ -3,8 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { WebcamImage, WebcamModule } from 'ngx-webcam';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
-import { PdfScrollComponent } from '../pdf-scroll/pdf-scroll.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @Component({
   selector: 'app-tab-panel',
@@ -13,8 +13,8 @@ import { QRCodeModule } from 'angularx-qrcode';
     FormsModule,
     WebcamModule,
     CommonModule,
-    PdfScrollComponent,
     QRCodeModule,
+    NgxExtendedPdfViewerModule,
   ],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
@@ -77,6 +77,15 @@ export class TabPanelComponent implements OnInit {
   myAngularxQrCode: string = '';
   latitude: number | null = null;
   longitude: number | null = null;
+  
+
+  customToolbarConfig = [
+    'sidebarToggle',
+    'previousPage',
+    'nextPage',
+    'zoomIn',
+    'zoomOut',
+  ];
 
   ngOnInit() {
     this.shrinking = false;
