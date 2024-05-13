@@ -4,11 +4,18 @@ import { WebcamImage, WebcamModule } from 'ngx-webcam';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
 import { PdfScrollComponent } from '../pdf-scroll/pdf-scroll.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-tab-panel',
   standalone: true,
-  imports: [FormsModule, WebcamModule, CommonModule, PdfScrollComponent],
+  imports: [
+    FormsModule,
+    WebcamModule,
+    CommonModule,
+    PdfScrollComponent,
+    QRCodeModule,
+  ],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
 })
@@ -67,6 +74,9 @@ export class TabPanelComponent implements OnInit {
   fontSize = 20;
   interval = 20;
   shrinking = false;
+  myAngularxQrCode: string = '';
+  latitude: number | null = null;
+  longitude: number | null = null;
 
   ngOnInit() {
     this.shrinking = false;
@@ -76,6 +86,7 @@ export class TabPanelComponent implements OnInit {
     this.updateStamp();
     this.circleStampCtx = this.circleStampCanvas.nativeElement.getContext('2d');
     this.updateCircleStamp();
+    this.generateQRCode('https://www.google.com');
   }
 
   selectTab(tab: string) {
@@ -490,9 +501,11 @@ export class TabPanelComponent implements OnInit {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           // Success callback
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          console.log('Latitude: ' + latitude + ', Longitude: ' + longitude);
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+          console.log(
+            'Latitude: ' + this.latitude + ', Longitude: ' + this.longitude
+          );
           // Do something with the obtained coordinates
         },
         (error) => {
@@ -513,5 +526,9 @@ export class TabPanelComponent implements OnInit {
     } else {
       console.log('Geolocation is not supported by this browser.');
     }
+  }
+
+  generateQRCode(url: string) {
+    this.myAngularxQrCode = url;
   }
 }

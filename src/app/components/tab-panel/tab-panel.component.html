@@ -68,6 +68,15 @@
         Location Permission
       </a>
     </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="activeTab === 'QRCode'"
+        (click)="selectTab('QRCode')"
+        style="cursor: pointer"
+        >QR Code</a
+      >
+    </li>
   </ul>
   <div class="tab-content">
     <div
@@ -354,6 +363,26 @@
         <button class="btn btn-primary" (click)="promptLocationPermission()">
           Prompt Location Permission
         </button>
+        <!-- Display latitude and longitude -->
+        <p *ngIf="latitude !== null && longitude !== null">
+          Latitude: {{ latitude }}, Longitude: {{ longitude }}
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="tab-pane fade"
+      [class.show]="activeTab === 'QRCode'"
+      [class.active]="activeTab === 'QRCode'"
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <div style="text-align: center">
+        <p>QR Code</p>
+        <qrcode
+          [qrdata]="myAngularxQrCode"
+          [width]="256"
+          [errorCorrectionLevel]="'M'"
+        ></qrcode>
       </div>
     </div>
   </div>
