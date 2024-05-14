@@ -1,11 +1,30 @@
-.pdf-loader {
-    /* Style your loader container here */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
+/* Adjusting icon and text alignment for tree buttons */
+.tree-button {
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+.tree-button .icon {
+  margin-right: 5px; /* Adjust the spacing between icon and text */
+}
+.tree-button .text {
+  flex-grow: 1; /* Allow the text to take up remaining space */
+}
+/* Styling the icon */
+.tree-button .icon i {
+  transition: transform 0.3s ease; /* Add transition effect for rotation */
+}
+/* Rotate icon when expanded */
+.tree-button .icon i.fa-rotate-90 {
+  transform: rotate(90deg);
+}
+/* Adjusting the alignment for grandchild elements */
+.grandchild {
+  margin-left: 2 px; /* Adjust the indentation as needed */
+}
+.tree-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px; /* Adjust padding as needed */
+}

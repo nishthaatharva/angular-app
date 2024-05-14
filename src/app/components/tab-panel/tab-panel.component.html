@@ -77,6 +77,16 @@
         >QR Code</a
       >
     </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="activeTab === 'Tree'"
+        (click)="selectTab('Tree')"
+        style="cursor: pointer"
+      >
+        Tree
+      </a>
+    </li>
   </ul>
   <div class="tab-content">
     <div
@@ -389,6 +399,55 @@
           [width]="256"
           [errorCorrectionLevel]="'M'"
         ></qrcode>
+      </div>
+    </div>
+
+    <div
+      class="tab-pane fade"
+      [class.show]="activeTab === 'Tree'"
+      [class.active]="activeTab === 'Tree'"
+    >
+      <div class="tree-container">
+        <div>
+          <p>Tree</p>
+          <ul>
+            <ng-container *ngFor="let node of treeData">
+              <li>
+                <button (click)="toggleNode(node)" class="tree-button">
+                  <span class="icon">
+                    <i
+                      class="fa fa-chevron-right"
+                      [class.fa-rotate-90]="node.expanded"
+                    ></i>
+                  </span>
+                  <span class="text">{{ node.name }}</span>
+                </button>
+                <ul *ngIf="node.children && node.expanded">
+                  <ng-container *ngFor="let child of node.children">
+                    <li *ngIf="child.visible">
+                      <button (click)="toggleNode(child)" class="tree-button">
+                        <span class="icon">
+                          <i
+                            class="fa fa-chevron-right"
+                            [class.fa-rotate-90]="child.expanded"
+                          ></i>
+                        </span>
+                        <span class="text">{{ child.name }}</span>
+                      </button>
+                      <ul *ngIf="child.children && child.expanded">
+                        <ng-container *ngFor="let grandchild of child.children">
+                          <li *ngIf="grandchild.visible" class="grandchild">
+                            {{ grandchild.name }}
+                          </li>
+                        </ng-container>
+                      </ul>
+                    </li>
+                  </ng-container>
+                </ul>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

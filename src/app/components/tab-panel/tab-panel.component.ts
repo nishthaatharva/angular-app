@@ -6,6 +6,12 @@ import { Observable, Subject } from 'rxjs';
 import { QRCodeModule } from 'angularx-qrcode';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
+interface TreeNode {
+  name: string;
+  children?: TreeNode[];
+  expanded?: boolean; // Add expanded property
+  visible?: boolean; // Add visible property
+}
 @Component({
   selector: 'app-tab-panel',
   standalone: true,
@@ -77,7 +83,6 @@ export class TabPanelComponent implements OnInit {
   myAngularxQrCode: string = '';
   latitude: number | null = null;
   longitude: number | null = null;
-
   ngOnInit() {
     this.shrinking = false;
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -531,4 +536,43 @@ export class TabPanelComponent implements OnInit {
   generateQRCode(url: string) {
     this.myAngularxQrCode = url;
   }
+  toggleNode(node: TreeNode) {
+    node.expanded = !node.expanded;
+    this.toggleChildrenVisibility(node.children, node.expanded);
+  }
+
+  toggleChildrenVisibility(
+    children: TreeNode[] | undefined,
+    isVisible: boolean
+  ) {
+    if (children) {
+      for (const child of children) {
+        child.visible = isVisible;
+        if (child.children) {
+          this.toggleChildrenVisibility(child.children, isVisible);
+        }
+      }
+    }
+  }
+
+  treeData: TreeNode[] = [
+    {
+      name: 'Root',
+      expanded: true, // Initially expanded
+      visible: true,
+      children: [
+        { name: 'Child 1', visible: true },
+        {
+          name: 'Child 2',
+          expanded: false, // Initially collapsed
+          visible: true,
+          children: [
+            { name: 'Grandchild 1', visible: true },
+            { name: 'Grandchild 2', visible: true },
+          ],
+        },
+        { name: 'Child 3', visible: true },
+      ],
+    },
+  ];
 }
