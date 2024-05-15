@@ -1,30 +1,105 @@
-/* Adjusting icon and text alignment for tree buttons */
 .tree-button {
   display: flex;
   align-items: center;
   text-align: left;
+  background-color: #F5F5F5; 
+  border: none; 
+  padding: 15px 20px; 
+  border-radius: 8px;
+  transition: background-color 0.3s ease; 
+  font-size: 18px; 
 }
+
+.tree-button:hover {
+  background-color: #E0E0E0; 
+}
+
 .tree-button .icon {
-  margin-right: 5px; /* Adjust the spacing between icon and text */
+  margin-right: 15px; 
+  color: #666; 
+  font-size: 20px; 
 }
+
 .tree-button .text {
-  flex-grow: 1; /* Allow the text to take up remaining space */
+  flex-grow: 1; 
+  font-size: 18px; 
+  color: #333; 
 }
-/* Styling the icon */
+
 .tree-button .icon i {
-  transition: transform 0.3s ease; /* Add transition effect for rotation */
+  transition: transform 0.3s ease; 
 }
-/* Rotate icon when expanded */
+
 .tree-button .icon i.fa-rotate-90 {
   transform: rotate(90deg);
 }
-/* Adjusting the alignment for grandchild elements */
+
 .grandchild {
-  margin-left: 2 px; /* Adjust the indentation as needed */
+  margin-left: 30px;
 }
+
 .tree-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  padding: 20px; /* Adjust padding as needed */
+  padding: 50px; 
+  margin-top: 50px;
+  display: flex;
+  background-color: #fff; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  border-radius: 15px; 
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.right-panel {
+  width: 400px; 
+  height: 300px; 
+  background-color: #F5F5F5; 
+  padding: 30px;
+  margin-top: 30px;
+  margin-left: 50px; 
+  border-radius: 15px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  overflow: auto; 
+  max-width: 400px; 
+  max-height: 300px; 
+}
+
+.right-panel h3 {
+  color: #333;
+  margin-top: 0; 
+  font-size: 24px; 
+}
+
+.right-panel p {
+  color: #666; 
+  font-size: 18px; 
+}
+
+#context-menu {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 100; 
+}
+
+#context-menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#context-menu li {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+#context-menu li:hover {
+  background-color: #F5F5F5;
 }

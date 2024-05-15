@@ -11,6 +11,7 @@ interface TreeNode {
   children?: TreeNode[];
   expanded?: boolean; // Add expanded property
   visible?: boolean; // Add visible property
+  selected?: boolean; // New property to track selection
 }
 @Component({
   selector: 'app-tab-panel',
@@ -536,11 +537,16 @@ export class TabPanelComponent implements OnInit {
   generateQRCode(url: string) {
     this.myAngularxQrCode = url;
   }
+  selectedNode: TreeNode | null = null;
+
   toggleNode(node: TreeNode) {
     node.expanded = !node.expanded;
-    this.toggleChildrenVisibility(node.children, node.expanded);
-  }
 
+    // Set the selected property of the clicked node
+    this.treeData.forEach((n) => (n.selected = false)); // Deselect all nodes
+    node.selected = true; // Select the clicked node
+    this.selectedNode = node; // Update the selectedNode property
+  }
   toggleChildrenVisibility(
     children: TreeNode[] | undefined,
     isVisible: boolean
@@ -575,4 +581,25 @@ export class TabPanelComponent implements OnInit {
       ],
     },
   ];
+  showContextMenu(event: MouseEvent, node: TreeNode) {
+    event.preventDefault();
+    const contextMenu = document.getElementById('context-menu');
+    if (contextMenu) {
+      contextMenu.style.display = 'block';
+      contextMenu.style.left = `${event.clientX}px`;
+      contextMenu.style.top = `${event.clientY}px`;
+    }
+  }
+
+  addNode(event: MouseEvent, parent: TreeNode) {
+    event.preventDefault(); // Prevent the default context menu
+    const newNodeName = prompt('Enter node name:');
+    if (newNodeName) {
+      if (!parent.children) {
+        parent.children = [];
+        parent.expanded = true; // Expand parent if it has children
+      }
+      parent.children.push({ name: newNodeName, visible: true });
+    }
+  }
 }

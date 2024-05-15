@@ -390,7 +390,6 @@
       class="tab-pane fade"
       [class.show]="activeTab === 'QRCode'"
       [class.active]="activeTab === 'QRCode'"
-      style="display: flex; justify-content: center; align-items: center"
     >
       <div style="text-align: center">
         <p>QR Code</p>
@@ -412,21 +411,38 @@
           <p>Tree</p>
           <ul>
             <ng-container *ngFor="let node of treeData">
-              <li>
-                <button (click)="toggleNode(node)" class="tree-button">
-                  <span class="icon">
-                    <i
-                      class="fa fa-chevron-right"
-                      [class.fa-rotate-90]="node.expanded"
-                    ></i>
-                  </span>
-                  <span class="text">{{ node.name }}</span>
-                </button>
+              <li (contextmenu)="showContextMenu($event, node)">
+                <ng-container *ngIf="node.children">
+                  <!-- Render as button if node has children -->
+                  <button
+                    (click)="toggleNode(node)"
+                    (contextmenu)="addNode($event, node)"
+                    class="tree-button"
+                  >
+                    <span
+                      class="icon"
+                      *ngIf="node.children && node.children.length > 0"
+                    >
+                      <i
+                        class="fa fa-chevron-right"
+                        [class.fa-rotate-90]="node.expanded"
+                      ></i>
+                    </span>
+                    <span class="text">{{ node.name }}</span>
+                  </button>
+                </ng-container>
                 <ul *ngIf="node.children && node.expanded">
                   <ng-container *ngFor="let child of node.children">
                     <li *ngIf="child.visible">
-                      <button (click)="toggleNode(child)" class="tree-button">
-                        <span class="icon">
+                      <button
+                        (click)="toggleNode(child)"
+                        (contextmenu)="addNode($event, child)"
+                        class="tree-button"
+                      >
+                        <span
+                          class="icon"
+                          *ngIf="child.children && child.children.length > 0"
+                        >
                           <i
                             class="fa fa-chevron-right"
                             [class.fa-rotate-90]="child.expanded"
@@ -436,8 +452,12 @@
                       </button>
                       <ul *ngIf="child.children && child.expanded">
                         <ng-container *ngFor="let grandchild of child.children">
-                          <li *ngIf="grandchild.visible" class="grandchild">
-                            {{ grandchild.name }}
+                          <li
+                            *ngIf="grandchild.visible"
+                            class="tree-button grandchild"
+                            (contextmenu)="showContextMenu($event, grandchild)"
+                          >
+                            <span class="text">{{ grandchild.name }}</span>
                           </li>
                         </ng-container>
                       </ul>
@@ -447,6 +467,12 @@
               </li>
             </ng-container>
           </ul>
+        </div>
+
+        <!-- Right-side panel -->
+        <div class="right-panel">
+          <h3>Selected Node</h3>
+          <p *ngIf="selectedNode">{{ selectedNode.name }}</p>
         </div>
       </div>
     </div>
