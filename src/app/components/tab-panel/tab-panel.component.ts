@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
 import { QRCodeModule } from 'angularx-qrcode';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { IpServiceService } from '../../ip-service.service';
 
 interface TreeNode {
   name: string;
@@ -84,6 +85,10 @@ export class TabPanelComponent implements OnInit {
   myAngularxQrCode: string = '';
   latitude: number | null = null;
   longitude: number | null = null;
+  ipAddress!: string;
+
+  constructor(private ip: IpServiceService) {}
+
   ngOnInit() {
     this.shrinking = false;
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -93,6 +98,7 @@ export class TabPanelComponent implements OnInit {
     this.circleStampCtx = this.circleStampCanvas.nativeElement.getContext('2d');
     this.updateCircleStamp();
     this.generateQRCode('https://www.google.com');
+    this.getIP();
   }
 
   selectTab(tab: string) {
@@ -601,5 +607,11 @@ export class TabPanelComponent implements OnInit {
       }
       parent.children.push({ name: newNodeName, visible: true });
     }
+  }
+
+  getIP() {
+    this.ip.getIPAddress().subscribe((res: any) => {
+      this.ipAddress = res.ip;
+    });
   }
 }
