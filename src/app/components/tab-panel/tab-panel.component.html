@@ -156,21 +156,22 @@
         </div>
       </div>
       <div class="row" style="margin-top: 10px">
-        <div class="col-md-12">
-          <canvas id="textCanvas" width="600" height="800" style="border: 1px solid #000;"></canvas>
+        <div *ngFor="let font of fonts; let i = index" class="col-md-12 mb-3">
+          <canvas [id]="'textCanvas' + i" width="600" height="100" style="border: 1px solid #000;"></canvas>
         </div>
       </div>
       <div class="row" style="margin-top: 10px">
         <div class="col-md-12">
-          <button class="btn btn-primary" (click)="convertCanvasToImage()">Convert to Image</button>
+          <button class="btn btn-primary" (click)="convertCanvasesToImages()">Convert to Images</button>
         </div>
       </div>
       <div class="row" style="margin-top: 10px">
-        <div class="col-md-12">
-          <img [src]="canvasImage" *ngIf="canvasImage" style="max-width: 100%;" />
+        <div *ngFor="let image of canvasImages" class="col-md-12 mb-3">
+          <img [src]="image" style="max-width: 100%;" />
         </div>
       </div>
     </div>
+    
     
     </div>
     <div

@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WebcamImage, WebcamModule } from 'ngx-webcam';
 import { CommonModule } from '@angular/common';
@@ -27,7 +33,7 @@ interface TreeNode {
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
 })
-export class TabPanelComponent implements OnInit {
+export class TabPanelComponent implements OnInit, AfterViewInit {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('stampCanvas', { static: true })
   stampCanvas!: ElementRef<HTMLCanvasElement>;
@@ -57,6 +63,7 @@ export class TabPanelComponent implements OnInit {
     'Satisfy',
   ];
   canvasImage: string | null = null;
+  canvasImages: string[] = [];
   strokeHistory: {
     startX: number;
     startY: number;
@@ -100,6 +107,10 @@ export class TabPanelComponent implements OnInit {
     this.updateCircleStamp();
     this.generateQRCode('https://www.google.com');
     this.getIP();
+    this.drawText();
+  }
+
+  ngAfterViewInit() {
     this.drawText();
   }
 
@@ -192,36 +203,36 @@ export class TabPanelComponent implements OnInit {
   }
 
   drawText() {
-    const canvas = document.getElementById('textCanvas') as HTMLCanvasElement;
-    const context = canvas.getContext('2d');
+    this.fonts.forEach((font, index) => {
+      const canvas = document.getElementById(
+        `textCanvas${index}`
+      ) as HTMLCanvasElement;
+      const context = canvas.getContext('2d');
 
-    if (context) {
-      // Clear the canvas
-      context.clearRect(0, 0, canvas.width, canvas.height);
+      if (context) {
+        // Clear the canvas
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw the text in all fonts
-      const text = this.textInput ? this.textInput : 'Type your name';
-      const lineHeight = 100;
-
-      this.fonts.forEach((font, index) => {
+        // Draw the text in the current font
+        const text = this.textInput ? this.textInput : 'Type your name';
         context.font = `48px ${font}`;
         context.fillStyle = this.selectedColor;
         context.textAlign = 'center';
         context.textBaseline = 'middle';
-        context.fillText(text, canvas.width / 2, (index + 1) * lineHeight);
-      });
-    }
+        context.fillText(text, canvas.width / 2, canvas.height / 2);
+      }
+    });
   }
 
-  trackByFont(index: number, font: string) {
-    return font;
-  }
-
-  convertCanvasToImage() {
-    const canvas = document.getElementById('textCanvas') as HTMLCanvasElement;
-    const dataURL = canvas.toDataURL('image/png');
-    this.canvasImage = dataURL;
-    console.log(dataURL);
+  convertCanvasesToImages() {
+    this.canvasImages = this.fonts.map((_, index) => {
+      const canvas = document.getElementById(
+        `textCanvas${index}`
+      ) as HTMLCanvasElement;
+      const dataURL = canvas.toDataURL('image/png');
+      console.log(`Canvas ${index} Base64:`, dataURL);
+      return dataURL;
+    });
   }
 
   setStampColor(color: string) {
