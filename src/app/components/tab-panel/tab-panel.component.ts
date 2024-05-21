@@ -56,6 +56,7 @@ export class TabPanelComponent implements OnInit {
     'Sacramento',
     'Satisfy',
   ];
+  canvasImage: string | null = null;
   strokeHistory: {
     startX: number;
     startY: number;
@@ -99,6 +100,7 @@ export class TabPanelComponent implements OnInit {
     this.updateCircleStamp();
     this.generateQRCode('https://www.google.com');
     this.getIP();
+    this.drawText();
   }
 
   selectTab(tab: string) {
@@ -186,6 +188,40 @@ export class TabPanelComponent implements OnInit {
 
   setColor1(color: string) {
     this.selectedColor = color;
+    this.drawText();
+  }
+
+  drawText() {
+    const canvas = document.getElementById('textCanvas') as HTMLCanvasElement;
+    const context = canvas.getContext('2d');
+
+    if (context) {
+      // Clear the canvas
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw the text in all fonts
+      const text = this.textInput ? this.textInput : 'Type your name';
+      const lineHeight = 100;
+
+      this.fonts.forEach((font, index) => {
+        context.font = `48px ${font}`;
+        context.fillStyle = this.selectedColor;
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        context.fillText(text, canvas.width / 2, (index + 1) * lineHeight);
+      });
+    }
+  }
+
+  trackByFont(index: number, font: string) {
+    return font;
+  }
+
+  convertCanvasToImage() {
+    const canvas = document.getElementById('textCanvas') as HTMLCanvasElement;
+    const dataURL = canvas.toDataURL('image/png');
+    this.canvasImage = dataURL;
+    console.log(dataURL);
   }
 
   setStampColor(color: string) {
