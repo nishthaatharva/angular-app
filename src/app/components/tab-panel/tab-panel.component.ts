@@ -224,16 +224,13 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
     });
   }
 
-  convertCanvasesToImages() {
-    this.canvasImages = this.fonts.map((_, index) => {
-      const canvas = document.getElementById(
-        `textCanvas${index}`
-      ) as HTMLCanvasElement;
-      const dataURL = canvas.toDataURL('image/png');
-      console.log(`Canvas ${index} Base64:`, dataURL);
-      return dataURL;
-    });
+  convertCanvasToImage(index: number) {
+    const canvas = document.getElementById(`textCanvas${index}`) as HTMLCanvasElement;
+    const dataURL = canvas.toDataURL('image/png');
+    console.log(`Canvas ${index} Base64:`, dataURL);
+    this.canvasImage = dataURL;
   }
+  
 
   setStampColor(color: string) {
     this.stampColor = color;
