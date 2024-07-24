@@ -26,6 +26,9 @@ import {
   CUSTOM,
 } from 'ngx-simple-text-editor';
 
+import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
+import mammoth from 'mammoth';
+
 interface TreeNode {
   name: string;
   children?: TreeNode[];
@@ -44,6 +47,7 @@ interface TreeNode {
     NgxExtendedPdfViewerModule,
     QuillModule,
     NgxSimpleTextEditorModule,
+    AngularEditorModule 
   ],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
@@ -66,7 +70,7 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
   currentColor = 'black';
   selectedColor: string = 'black';
   stampColor: string = 'black';
-  activeTab: string = 'ngxEditor';
+  activeTab: string = 'cke';
   textInput: string = '';
   fonts: string[] = [
     'Pacifico',
@@ -765,4 +769,77 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
     placeholder: 'Type something...',
     buttons: [CUSTOM],
   };
+
+
+  ///
+
+  htmlContent: string = '';
+
+  editorConfig1: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '5rem',
+    maxHeight: 'auto',
+    width: 'auto',
+    minWidth: '0',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: 'Enter text here...',
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      { class: 'arial', name: 'Arial' },
+      { class: 'times-new-roman', name: 'Times New Roman' },
+      { class: 'calibri', name: 'Calibri' },
+      { class: 'comic-sans-ms', name: 'Comic Sans MS' }
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText'
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+    uploadUrl: 'v1/image',
+    sanitize: true,
+    toolbarPosition: 'top',
+    toolbarHiddenButtons: [
+      ['bold', 'italic'],
+      ['fontSize']
+    ]
+  };
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput.click();
+  }
+
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = async (e: any) => {
+        const arrayBuffer = e.target.result;
+        try {
+          const res = await this.docxToHtmlService.convertDocxToHtml(file);
+          this.htmlContent = res;
+        } catch (error) {
+          console.error('Error reading .doc/.docx file:', error);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  }
 }

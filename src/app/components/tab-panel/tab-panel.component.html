@@ -451,6 +451,23 @@
       </div>
     </div>
 
+
+    <div class="tab-pane fade" [class.show]="activeTab === 'cke'" [class.active]="activeTab === 'cke'">
+        <p>kolkov/angular-editor</p>
+        <angular-editor id="editor1" [(ngModel)]="htmlContent" [config]="editorConfig1">
+          <ng-template #customButtons let-executeCommandFn="executeCommandFn">
+            <ae-toolbar-set>
+              <ae-button iconClass="fa fa-upload" title="Upload .doc/.docx"
+                         (buttonClick)="triggerFileInput()">
+              </ae-button>
+            </ae-toolbar-set>
+          </ng-template>
+        </angular-editor>
+        <!-- Hidden file input to be triggered by the custom toolbar button -->
+        <input type="file" id="fileInput" style="display: none;" (change)="onFileChange($event)" accept=".doc,.docx">
+    </div>
+    
+
     <div
       class="tab-pane fade"
       [class.show]="activeTab === 'ngxEditor'"
