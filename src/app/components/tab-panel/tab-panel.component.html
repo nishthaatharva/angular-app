@@ -89,6 +89,16 @@
     <li class="nav-item">
       <a
         class="nav-link"
+        [class.active]="activeTab === 'ngxEditor'"
+        (click)="selectTab('ngxEditor')"
+        style="cursor: pointer"
+        >ngxEditor</a
+      >
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
         [class.active]="activeTab === 'Tree'"
         (click)="selectTab('Tree')"
         style="cursor: pointer"
@@ -425,22 +435,33 @@
     </div>
 
     <div
-    class="tab-pane fade"
-    [class.show]="activeTab === 'cke'"
-    [class.active]="activeTab === 'cke'"
-  >
-    <div style="text-align: center">
-      <p>Quill editor</p>
-      <quill-editor
-        [(ngModel)]="editorContent"
-        [theme]="'snow'"
-        [modules]="editorConfig"
-        [placeholder]="placeholder"
-        (onEditorCreated)="onEditorCreated($event)"
-      ></quill-editor>
+      class="tab-pane fade"
+      [class.show]="activeTab === 'cke'"
+      [class.active]="activeTab === 'cke'"
+    >
+      <div style="text-align: center">
+        <p>Quill editor</p>
+        <quill-editor
+          [(ngModel)]="editorContent"
+          [theme]="'snow'"
+          [modules]="editorConfig"
+          [placeholder]="placeholder"
+          (onEditorCreated)="onEditorCreated($event)"
+        ></quill-editor>
+      </div>
     </div>
-  </div>
-  
+
+    <div
+      class="tab-pane fade"
+      [class.show]="activeTab === 'ngxEditor'"
+      [class.active]="activeTab === 'ngxEditor'"
+    >
+      <div class="NgxEditor__Wrapper">
+        <st-editor [(ngModel)]="content" [config]="config"></st-editor>
+
+        <br />
+      </div>
+    </div>
 
     <div
       class="tab-pane fade"

@@ -14,7 +14,17 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { IpServiceService } from '../../ip-service.service';
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
-import { DocxToHtmlService } from'../../docx-to-html.service';
+import { DocxToHtmlService } from '../../docx-to-html.service';
+import {
+  BOLD_BUTTON,
+  EditorConfig,
+  ITALIC_BUTTON,
+  NgxSimpleTextEditorModule,
+  SEPARATOR,
+  ST_BUTTONS,
+  UNDO_BUTTON,
+  CUSTOM,
+} from 'ngx-simple-text-editor';
 
 interface TreeNode {
   name: string;
@@ -33,6 +43,7 @@ interface TreeNode {
     QRCodeModule,
     NgxExtendedPdfViewerModule,
     QuillModule,
+    NgxSimpleTextEditorModule,
   ],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
@@ -55,7 +66,7 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
   currentColor = 'black';
   selectedColor: string = 'black';
   stampColor: string = 'black';
-  activeTab: string = 'cke';
+  activeTab: string = 'ngxEditor';
   textInput: string = '';
   fonts: string[] = [
     'Pacifico',
@@ -99,7 +110,10 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
   longitude: number | null = null;
   ipAddress!: string;
 
-  constructor(private ip: IpServiceService, private docxToHtmlService: DocxToHtmlService) {}
+  constructor(
+    private ip: IpServiceService,
+    private docxToHtmlService: DocxToHtmlService
+  ) {}
 
   ngOnInit() {
     this.shrinking = false;
@@ -693,7 +707,6 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
     },
   };
 
-
   async uploadFile() {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -718,10 +731,15 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
 
       // Insert HTML content into Quill editor
       const range = this.quillEditor!.getSelection(true);
-      this.quillEditor!.clipboard.dangerouslyPasteHTML(range.index, htmlContent);
+      this.quillEditor!.clipboard.dangerouslyPasteHTML(
+        range.index,
+        htmlContent
+      );
     } catch (error) {
       console.error('Error processing DOCX file:', error);
-      alert('There was an error processing the DOCX file. Please ensure the file is not corrupted and try again.');
+      alert(
+        'There was an error processing the DOCX file. Please ensure the file is not corrupted and try again.'
+      );
     }
   }
 
@@ -739,4 +757,12 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
       button.innerHTML = '<i class="fa fa-upload" aria-hidden="true"></i>';
     }
   }
+
+  ///
+
+  content = '';
+  config: EditorConfig = {
+    placeholder: 'Type something...',
+    buttons: [CUSTOM],
+  };
 }
