@@ -21,8 +21,11 @@
     "angularx-qrcode": "^17.0.1",
     "bootstrap": "^5.3.3",
     "fabric": "^5.3.0",
+    "mammoth": "^1.8.0",
     "ngx-extended-pdf-viewer": "^20.0.1",
+    "ngx-quill": "^26.0.5",
     "ngx-webcam": "^0.4.1",
+    "quill": "^2.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

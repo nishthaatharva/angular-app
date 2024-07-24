@@ -80,6 +80,15 @@
     <li class="nav-item">
       <a
         class="nav-link"
+        [class.active]="activeTab === 'cke'"
+        (click)="selectTab('cke')"
+        style="cursor: pointer"
+        >CKeditor</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
         [class.active]="activeTab === 'Tree'"
         (click)="selectTab('Tree')"
         style="cursor: pointer"
@@ -124,54 +133,67 @@
       [class.show]="activeTab === 'Tab2'"
       [class.active]="activeTab === 'Tab2'"
     >
-    <div style="text-align: center; width: 70%; margin: 0 auto">
-      <p>Text Style Selector</p>
-      <div>
-        <div class="row">
-          <div class="col-md-5 mb-3">
-            <input
-              type="text"
-              [(ngModel)]="textInput"
-              class="form-control ml-md-10"
-              placeholder="Type your name here"
-              style="height: 100%; padding: 10px; margin-left: 20px"
-              (input)="drawText()"
+      <div style="text-align: center; width: 70%; margin: 0 auto">
+        <p>Text Style Selector</p>
+        <div>
+          <div class="row">
+            <div class="col-md-5 mb-3">
+              <input
+                type="text"
+                [(ngModel)]="textInput"
+                class="form-control ml-md-10"
+                placeholder="Type your name here"
+                style="height: 100%; padding: 10px; margin-left: 20px"
+                (input)="drawText()"
+              />
+            </div>
+            <div class="col-md-4 text-md-right mt-2 mt-md-0">
+              <button
+                class="btn btn-outline-light mr-2"
+                (click)="setColor1('black')"
+                style="margin-left: 30px"
+              >
+                <i class="fas fa-pencil-alt" style="color: black"></i>
+              </button>
+              <button
+                class="btn btn-outline-light mr-2"
+                (click)="setColor1('red')"
+              >
+                <i class="fas fa-pencil-alt" style="color: red"></i>
+              </button>
+              <button class="btn btn-outline-light" (click)="setColor1('blue')">
+                <i class="fas fa-pencil-alt" style="color: blue"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 10px">
+          <div *ngFor="let font of fonts; let i = index" class="col-md-12 mb-3">
+            <div class="d-flex justify-content-center">
+              <canvas
+                [id]="'textCanvas' + i"
+                width="600"
+                height="100"
+                style="border: 1px solid #000"
+              ></canvas>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+              <button class="btn btn-primary" (click)="convertCanvasToImage(i)">
+                Convert to Image
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 10px">
+          <div class="col-md-12 mb-3">
+            <img
+              [src]="canvasImage"
+              style="max-width: 100%"
+              *ngIf="canvasImage"
             />
           </div>
-          <div class="col-md-4 text-md-right mt-2 mt-md-0">
-            <button
-              class="btn btn-outline-light mr-2"
-              (click)="setColor1('black')"
-              style="margin-left: 30px"
-            >
-              <i class="fas fa-pencil-alt" style="color: black"></i>
-            </button>
-            <button class="btn btn-outline-light mr-2" (click)="setColor1('red')">
-              <i class="fas fa-pencil-alt" style="color: red"></i>
-            </button>
-            <button class="btn btn-outline-light" (click)="setColor1('blue')">
-              <i class="fas fa-pencil-alt" style="color: blue"></i>
-            </button>
-          </div>
         </div>
       </div>
-      <div class="row" style="margin-top: 10px">
-        <div *ngFor="let font of fonts; let i = index" class="col-md-12 mb-3">
-          <div class="d-flex justify-content-center">
-            <canvas [id]="'textCanvas' + i" width="600" height="100" style="border: 1px solid #000;"></canvas>
-          </div>
-          <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-primary" (click)="convertCanvasToImage(i)">Convert to Image</button>
-          </div>
-        </div>
-      </div>
-      <div class="row" style="margin-top: 10px">
-        <div class="col-md-12 mb-3">
-          <img [src]="canvasImage" style="max-width: 100%;" *ngIf="canvasImage" />
-        </div>
-      </div>
-    </div>
-    
     </div>
     <div
       class="tab-pane fade"
@@ -401,6 +423,24 @@
         ></qrcode>
       </div>
     </div>
+
+    <div
+    class="tab-pane fade"
+    [class.show]="activeTab === 'cke'"
+    [class.active]="activeTab === 'cke'"
+  >
+    <div style="text-align: center">
+      <p>Quill editor</p>
+      <quill-editor
+        [(ngModel)]="editorContent"
+        [theme]="'snow'"
+        [modules]="editorConfig"
+        [placeholder]="placeholder"
+        (onEditorCreated)="onEditorCreated($event)"
+      ></quill-editor>
+    </div>
+  </div>
+  
 
     <div
       class="tab-pane fade"

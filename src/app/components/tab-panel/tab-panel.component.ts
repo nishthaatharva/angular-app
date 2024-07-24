@@ -12,6 +12,9 @@ import { Observable, Subject } from 'rxjs';
 import { QRCodeModule } from 'angularx-qrcode';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { IpServiceService } from '../../ip-service.service';
+import { QuillModule } from 'ngx-quill';
+import Quill from 'quill';
+import { DocxToHtmlService } from'../../docx-to-html.service';
 
 interface TreeNode {
   name: string;
@@ -29,6 +32,7 @@ interface TreeNode {
     CommonModule,
     QRCodeModule,
     NgxExtendedPdfViewerModule,
+    QuillModule,
   ],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
@@ -51,7 +55,7 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
   currentColor = 'black';
   selectedColor: string = 'black';
   stampColor: string = 'black';
-  activeTab: string = 'Canvas';
+  activeTab: string = 'cke';
   textInput: string = '';
   fonts: string[] = [
     'Pacifico',
@@ -95,7 +99,7 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
   longitude: number | null = null;
   ipAddress!: string;
 
-  constructor(private ip: IpServiceService) {}
+  constructor(private ip: IpServiceService, private docxToHtmlService: DocxToHtmlService) {}
 
   ngOnInit() {
     this.shrinking = false;
@@ -112,6 +116,7 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.drawText();
+    this.addCustomButton();
   }
 
   selectTab(tab: string) {
@@ -225,12 +230,13 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
   }
 
   convertCanvasToImage(index: number) {
-    const canvas = document.getElementById(`textCanvas${index}`) as HTMLCanvasElement;
+    const canvas = document.getElementById(
+      `textCanvas${index}`
+    ) as HTMLCanvasElement;
     const dataURL = canvas.toDataURL('image/png');
     console.log(`Canvas ${index} Base64:`, dataURL);
     this.canvasImage = dataURL;
   }
-  
 
   setStampColor(color: string) {
     this.stampColor = color;
@@ -657,5 +663,80 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
     this.ip.getIPAddress().subscribe((res: any) => {
       this.ipAddress = res.ip;
     });
+  }
+
+  editorContent: string = '';
+  placeholder: string = 'Add text...';
+  quillEditor: Quill | undefined;
+
+  editorConfig: any = {
+    toolbar: {
+      container: [
+        [{ font: [] }],
+        [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+        [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+        ['blockquote', 'code-block'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+        [{ direction: 'rtl' }], // text direction
+        [{ align: [] }],
+        ['link', 'image', 'video'],
+        ['clean'], // remove formatting button
+        ['customUpload'], // Custom button
+      ],
+      handlers: {
+        customUpload: this.uploadFile.bind(this), // Custom handler for upload
+      },
+    },
+  };
+
+
+  async uploadFile() {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', '.doc,.docx');
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files![0];
+      const fileType = file.name.split('.').pop()?.toLowerCase();
+
+      if (fileType === 'doc' || fileType === 'docx') {
+        await this.handleDOCX(file);
+      } else {
+        alert('Unsupported file type');
+      }
+    };
+  }
+
+  async handleDOCX(file: File) {
+    try {
+      const htmlContent = await this.docxToHtmlService.convertDocxToHtml(file);
+
+      // Insert HTML content into Quill editor
+      const range = this.quillEditor!.getSelection(true);
+      this.quillEditor!.clipboard.dangerouslyPasteHTML(range.index, htmlContent);
+    } catch (error) {
+      console.error('Error processing DOCX file:', error);
+      alert('There was an error processing the DOCX file. Please ensure the file is not corrupted and try again.');
+    }
+  }
+
+  onEditorCreated(quill: Quill) {
+    this.quillEditor = quill;
+    this.addCustomButton();
+  }
+
+  addCustomButton() {
+    const toolbar = this.quillEditor!.getModule('toolbar') as any;
+    const button = toolbar.container.querySelector(
+      'button.ql-customUpload'
+    ) as HTMLButtonElement;
+    if (button) {
+      button.innerHTML = '<i class="fa fa-upload" aria-hidden="true"></i>';
+    }
   }
 }
