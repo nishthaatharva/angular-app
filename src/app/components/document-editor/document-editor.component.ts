@@ -1,0 +1,218 @@
+import { Component, HostListener } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import {
+  ClassicEditor,
+  Bold,
+  Essentials,
+  Italic,
+  Mention,
+  Paragraph,
+  Undo,
+  FontFamily,
+  FontSize,
+  FontColor,
+  FontBackgroundColor,
+  Alignment,
+  CKFinderUploadAdapter,
+  Autoformat,
+  Autosave,
+  Underline,
+  Strikethrough,
+  Subscript,
+  Superscript,
+  BlockQuote,
+  CKBox,
+  Clipboard,
+  CKFinder,
+  CodeBlock,
+  EasyImage,
+  Enter,
+  FindAndReplace,
+  Font,
+  Highlight,
+  List,
+  PasteFromOffice,
+  PageBreak,
+  SpecialCharacters,
+  Typing,
+  OutdentCodeBlockCommand,
+} from 'ckeditor5';
+import 'ckeditor5/ckeditor5.css';
+import {
+  AngularEditorConfig,
+  AngularEditorModule,
+} from '@kolkov/angular-editor';
+@Component({
+  selector: 'app-document-editor',
+  standalone: true,
+  imports: [AngularEditorModule, FormsModule, CKEditorModule],
+  templateUrl: './document-editor.component.html',
+  styleUrl: './document-editor.component.scss',
+})
+export class DocumentEditorComponent {
+  triggerFileInput() {
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput.click();
+  }
+
+  editorConfig1: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '5rem',
+    maxHeight: 'auto',
+    width: 'auto',
+    minWidth: '0',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: 'Enter text here...',
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      { class: 'arial', name: 'Arial' },
+      { class: 'times-new-roman', name: 'Times New Roman' },
+      { class: 'calibri', name: 'Calibri' },
+      { class: 'comic-sans-ms', name: 'Comic Sans MS' },
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+    uploadUrl: 'v1/image',
+    sanitize: true,
+    toolbarPosition: 'top',
+    toolbarHiddenButtons: [['bold', 'italic'], ['fontSize']],
+  };
+
+  htmlContent: string = '';
+
+  @HostListener('document:dragover', ['$event'])
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
+
+  @HostListener('document:drop', ['$event'])
+  onDrop(event: DragEvent) {
+    debugger;
+    event.preventDefault();
+    const editor = document.getElementById('editor1');
+    if (editor) {
+      const tag = event.dataTransfer?.getData('text');
+      if (tag) {
+        this.insertTag(tag);
+      }
+    }
+  }
+
+  insertTag(tag: string) {
+    debugger;
+    const editor = document.getElementById('editor1') as HTMLElement;
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      const node = document.createElement('span');
+      node.innerHTML = tag;
+      range.insertNode(node);
+    }
+  }
+
+  onDragStart(event: DragEvent) {
+    var data = event?.target as HTMLDivElement;
+    event.dataTransfer?.setData('text', data.innerText);
+  }
+
+  public Editor = ClassicEditor;
+  public editorData: string = '<p>Content of the editor.</p>';
+  public config = {
+    toolbar: [
+      // 'undo',
+      // 'redo',
+      // '|',
+      'heading',
+      // '|',
+      // 'fontfamily',
+      // 'fontsize',
+      // 'fontColor',
+      // 'fontBackgroundColor',
+      // '|',
+      // 'bold',
+      // 'italic',
+      'strikethrough',
+      'subscript',
+      'superscript',
+      // 'code',
+      // '|',
+      // 'link',
+      'uploadImage',
+      // 'blockQuote',
+      // 'codeBlock',
+      // '|',
+      'bulletedList',
+      'numberedList',
+      'todoList',
+      'outdent',
+      'indent',
+      'Essentials',
+      'Bold',
+      'Italic',
+      'Underline',
+      'Mention',
+      'Paragraph',
+      'Undo',
+      'FontFamily',
+      'FontSize',
+      'FontColor',
+      'FontBackgroundColor',
+      'Alignment',
+      'Autoformat',
+      'List',
+    ],
+    plugins: [
+      Essentials,
+      Bold,
+      Italic,
+      Mention,
+      Paragraph,
+      Undo,
+      FontFamily,
+      FontSize,
+      FontColor,
+      FontBackgroundColor,
+      Alignment,
+      Autoformat,
+      Autosave,
+      Underline,
+      Strikethrough,
+      Subscript,
+      Superscript,
+      BlockQuote,
+      Clipboard,
+      CodeBlock,
+      Enter,
+      FindAndReplace,
+      Font,
+      Highlight,
+      List,
+      PasteFromOffice,
+      PageBreak,
+      SpecialCharacters,
+      Typing,
+    ],
+    licenseKey: 'DBCHHV747.FLG546VVS239',
+  };
+}

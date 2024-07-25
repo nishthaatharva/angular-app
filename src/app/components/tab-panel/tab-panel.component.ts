@@ -46,6 +46,7 @@ import {
   FontBackgroundColor,
 } from 'ckeditor5';
 import 'ckeditor5/ckeditor5.css';
+import { DocumentEditorComponent } from '../document-editor/document-editor.component';
 
 interface TreeNode {
   name: string;
@@ -67,6 +68,7 @@ interface TreeNode {
     NgxSimpleTextEditorModule,
     AngularEditorModule,
     CKEditorModule,
+    DocumentEditorComponent,
   ],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
@@ -790,8 +792,6 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
     buttons: [CUSTOM],
   };
 
-
-
   htmlContent: string = '';
 
   editorConfig1: AngularEditorConfig = {
@@ -865,25 +865,36 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
   public editorData: string = '<p>Content of the editor.</p>';
 
   public config = {
-    toolbar: [  'undo', 'redo',
+    toolbar: [
+      'undo',
+      'redo',
       '|',
       'heading',
       '|',
-      'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+      'fontfamily',
+      'fontsize',
+      'fontColor',
+      'fontBackgroundColor',
       '|',
-      'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+      'bold',
+      'italic',
+      'strikethrough',
+      'subscript',
+      'superscript',
+      'code',
       '|',
-      'link', 'uploadImage', 'blockQuote', 'codeBlock',
+      'link',
+      'uploadImage',
+      'blockQuote',
+      'codeBlock',
       '|',
-      'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'],
-    plugins: [
-      Essentials,
-      Bold,
-      Italic,
-      Mention,
-      Paragraph,
-      Undo,
+      'bulletedList',
+      'numberedList',
+      'todoList',
+      'outdent',
+      'indent',
     ],
+    plugins: [Essentials, Bold, Italic, Mention, Paragraph, Undo],
     licenseKey: 'DBCHHV747.FLG546VVS239',
   };
 }

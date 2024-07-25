@@ -108,6 +108,16 @@
     <li class="nav-item">
       <a
         class="nav-link"
+        [class.active]="activeTab === 'ckeditor-dixit'"
+        (click)="selectTab('ckeditor-dixit')"
+        style="cursor: pointer"
+        >CKEditor Dixit</a
+      >
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
         [class.active]="activeTab === 'Tree'"
         (click)="selectTab('Tree')"
         style="cursor: pointer"
@@ -450,7 +460,11 @@
     >
       <div style="text-align: center">
         <p>CKeditor</p>
-        <ckeditor [(ngModel)]="editorData" [editor]="Editor" [config]="config"></ckeditor>
+        <ckeditor
+          [(ngModel)]="editorData"
+          [editor]="Editor"
+          [config]="config"
+        ></ckeditor>
       </div>
     </div>
 
@@ -501,6 +515,17 @@
         (change)="onFileChange($event)"
         accept=".doc,.docx"
       />
+    </div>
+
+    <div
+      class="tab-pane fade"
+      [class.show]="activeTab === 'ckeditor-dixit'"
+      [class.active]="activeTab === 'ckeditor-dixit'"
+    >
+      <div class="NgxEditor__Wrapper">
+        <app-document-editor></app-document-editor>
+        <br />
+      </div>
     </div>
 
     <div
