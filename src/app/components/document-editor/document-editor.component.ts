@@ -14,7 +14,6 @@ import {
   FontColor,
   FontBackgroundColor,
   Alignment,
-  CKFinderUploadAdapter,
   Autoformat,
   Autosave,
   Underline,
@@ -22,11 +21,8 @@ import {
   Subscript,
   Superscript,
   BlockQuote,
-  CKBox,
   Clipboard,
-  CKFinder,
   CodeBlock,
-  EasyImage,
   Enter,
   FindAndReplace,
   Font,
@@ -36,13 +32,19 @@ import {
   PageBreak,
   SpecialCharacters,
   Typing,
-  OutdentCodeBlockCommand,
 } from 'ckeditor5';
 import 'ckeditor5/ckeditor5.css';
 import {
   AngularEditorConfig,
   AngularEditorModule,
 } from '@kolkov/angular-editor';
+
+interface Tag {
+  name: string;
+  type: string;
+  options?: string[];
+}
+
 @Component({
   selector: 'app-document-editor',
   standalone: true,
@@ -131,9 +133,8 @@ export class DocumentEditorComponent {
     }
   }
 
-  onDragStart(event: DragEvent) {
-    var data = event?.target as HTMLDivElement;
-    event.dataTransfer?.setData('text', data.innerText);
+  onDragStart(event: DragEvent, tag: Tag) {
+    event.dataTransfer?.setData('text', `[[${tag.name}]]`);
   }
 
   public Editor = ClassicEditor;
@@ -215,4 +216,30 @@ export class DocumentEditorComponent {
     ],
     licenseKey: 'DBCHHV747.FLG546VVS239',
   };
+
+  public tags: Tag[] = [];
+  public newTag: string = '';
+  public newTagType: string = 'Text box';
+  public newDropdownOption: string = '';
+  public newDropdownOptions: string[] = [];
+
+  addTag() {
+    if (this.newTag.trim() !== '') {
+      const newTag: Tag = { name: this.newTag.trim(), type: this.newTagType };
+      if (this.newTagType === 'Dropdown') {
+        newTag.options = [...this.newDropdownOptions];
+        this.newDropdownOptions = [];
+      }
+      this.tags.push(newTag);
+      this.newTag = '';
+      this.newTagType = 'Text box';
+    }
+  }
+
+  addDropdownOption() {
+    if (this.newDropdownOption.trim() !== '') {
+      this.newDropdownOptions.push(this.newDropdownOption.trim());
+      this.newDropdownOption = '';
+    }
+  }
 }

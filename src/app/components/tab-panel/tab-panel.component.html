@@ -1,619 +1,635 @@
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-/>
-<div class="container">
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'Canvas'"
-        (click)="selectTab('Canvas')"
-        style="cursor: pointer"
-        >Draw</a
-      >
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'Tab2'"
-        (click)="selectTab('Tab2')"
-        style="cursor: pointer"
-        >Select Style</a
-      >
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'Tab3'"
-        (click)="selectTab('Tab3')"
-        style="cursor: pointer"
-        >Stamp Rectangle</a
-      >
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'Tab4'"
-        (click)="selectTab('Tab4')"
-        style="cursor: pointer"
-        >Stamp Circle</a
-      >
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'Tab5'"
-        (click)="selectTab('Tab5')"
-        style="cursor: pointer"
-        >PDF scroll</a
-      >
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'WebCam'"
-        (click)="selectTab('WebCam')"
-        style="cursor: pointer"
-        >Web cam</a
-      >
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'LocationPermission'"
-        (click)="selectTab('LocationPermission')"
-        style="cursor: pointer"
-      >
-        Location Permission
-      </a>
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'QRCode'"
-        (click)="selectTab('QRCode')"
-        style="cursor: pointer"
-        >QR Code</a
-      >
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'ckeditor'"
-        (click)="selectTab('ckeditor')"
-        style="cursor: pointer"
-        >CKeditor</a
-      >
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'cke'"
-        (click)="selectTab('cke')"
-        style="cursor: pointer"
-        >editor</a
-      >
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'ngxEditor'"
-        (click)="selectTab('ngxEditor')"
-        style="cursor: pointer"
-        >ngxEditor</a
-      >
-    </li>
-
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'ckeditor-dixit'"
-        (click)="selectTab('ckeditor-dixit')"
-        style="cursor: pointer"
-        >CKEditor Dixit</a
-      >
-    </li>
-
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [class.active]="activeTab === 'Tree'"
-        (click)="selectTab('Tree')"
-        style="cursor: pointer"
-      >
-        Tree
-      </a>
-    </li>
-  </ul>
-  <div class="tab-content">
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'Canvas'"
-      [class.active]="activeTab === 'Canvas'"
-    >
-      <div style="text-align: center">
-        <p>Canvas Drawing</p>
-        <div style="margin-bottom: 20px">
-          <button class="btn btn-outline-light" (click)="setColor('black')">
-            <i class="fas fa-pencil-alt" style="color: black"></i>
-          </button>
-          <button class="btn btn-outline-light" (click)="setColor('red')">
-            <i class="fas fa-pencil-alt" style="color: red"></i>
-          </button>
-          <button class="btn btn-outline-light" (click)="setColor('blue')">
-            <i class="fas fa-pencil-alt" style="color: blue"></i>
-          </button>
-          <button (click)="clearCanvas()">Clear</button>
-        </div>
-        <canvas
-          #canvas
-          width="800"
-          height="400"
-          style="border: 1px solid black"
-          (mousedown)="mousedown($event)"
-          (mouseup)="mouseup()"
-          (mousemove)="mousemove($event)"
-        ></canvas>
-      </div>
-    </div>
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'Tab2'"
-      [class.active]="activeTab === 'Tab2'"
-    >
-      <div style="text-align: center; width: 70%; margin: 0 auto">
-        <p>Text Style Selector</p>
-        <div>
-          <div class="row">
-            <div class="col-md-5 mb-3">
-              <input
-                type="text"
-                [(ngModel)]="textInput"
-                class="form-control ml-md-10"
-                placeholder="Type your name here"
-                style="height: 100%; padding: 10px; margin-left: 20px"
-                (input)="drawText()"
-              />
-            </div>
-            <div class="col-md-4 text-md-right mt-2 mt-md-0">
-              <button
-                class="btn btn-outline-light mr-2"
-                (click)="setColor1('black')"
-                style="margin-left: 30px"
-              >
-                <i class="fas fa-pencil-alt" style="color: black"></i>
-              </button>
-              <button
-                class="btn btn-outline-light mr-2"
-                (click)="setColor1('red')"
-              >
-                <i class="fas fa-pencil-alt" style="color: red"></i>
-              </button>
-              <button class="btn btn-outline-light" (click)="setColor1('blue')">
-                <i class="fas fa-pencil-alt" style="color: blue"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="row" style="margin-top: 10px">
-          <div *ngFor="let font of fonts; let i = index" class="col-md-12 mb-3">
-            <div class="d-flex justify-content-center">
-              <canvas
-                [id]="'textCanvas' + i"
-                width="600"
-                height="100"
-                style="border: 1px solid #000"
-              ></canvas>
-            </div>
-            <div class="d-flex justify-content-center mt-3">
-              <button class="btn btn-primary" (click)="convertCanvasToImage(i)">
-                Convert to Image
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="row" style="margin-top: 10px">
-          <div class="col-md-12 mb-3">
-            <img
-              [src]="canvasImage"
-              style="max-width: 100%"
-              *ngIf="canvasImage"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'Tab3'"
-      [class.active]="activeTab === 'Tab3'"
-    >
-      <div style="text-align: center; width: 70%; margin: 0 auto">
-        <p>Stamp Rectangle</p>
-        <div class="row">
-          <div class="col-md-6">
-            <input
-              type="text"
-              [(ngModel)]="textTop"
-              class="form-control mb-3"
-              placeholder="Text Top"
-              (input)="updateStamp()"
-            />
-            <input
-              type="text"
-              [(ngModel)]="textCenter"
-              class="form-control mb-3"
-              placeholder="Text Center"
-              (input)="updateStamp()"
-            />
-            <input
-              type="text"
-              [(ngModel)]="textBottom"
-              class="form-control mb-3"
-              placeholder="Text Bottom"
-              (input)="updateStamp()"
-            />
-            <input
-              type="text"
-              [(ngModel)]="stampName"
-              class="form-control mb-3"
-              placeholder="Stamp Name"
-              (input)="updateStamp()"
-            />
-            <label style="margin-right: 10px">
-              <input
-                type="checkbox"
-                [(ngModel)]="showBorder"
-                (change)="updateStamp()"
-              />
-              Border
-            </label>
-            <input
-              type="color"
-              [(ngModel)]="stampColor"
-              (input)="updateStamp()"
-            />
-          </div>
-          <div class="col-md-6">
-            <canvas
-              #stampCanvas
-              width="400"
-              height="200"
-              style="border: 1px solid rgb(200, 200, 200)"
-            ></canvas>
-            <button class="btn btn-primary mt-3" (click)="saveStamp()">
-              Save Stamp
-            </button>
-            <div class="mt-3">
-              @if (stampDataURL) {
-              <img [src]="stampDataURL" alt="Stamped Image" />
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'Tab4'"
-      [class.active]="activeTab === 'Tab4'"
-    >
-      <div style="text-align: center; width: 70%; margin: 0 auto">
-        <p>Stamp Circle</p>
-        <div class="row">
-          <!-- Left div with inputs -->
-          <div class="col-md-6">
-            <input
-              type="text"
-              [(ngModel)]="circleTextTop"
-              class="form-control mb-3"
-              placeholder="Text Top"
-              (input)="updateCircleStamp()"
-            />
-            <input
-              type="text"
-              [(ngModel)]="circleTextCenter"
-              class="form-control mb-3"
-              placeholder="Text Center"
-              (input)="updateCircleStamp()"
-            />
-            <input
-              type="text"
-              [(ngModel)]="circleStampName"
-              class="form-control mb-3"
-              placeholder="Stamp Name"
-              (input)="updateCircleStamp()"
-            />
-            <label style="margin-right: 10px">
-              <input
-                type="checkbox"
-                [(ngModel)]="circleShowBorder"
-                (change)="updateCircleStamp()"
-              />
-              Border
-            </label>
-            <label style="margin-right: 10px">
-              <input
-                type="checkbox"
-                [(ngModel)]="showAdditionalCircle"
-                (change)="updateCircleStamp()"
-              />
-              Show Additional Circle
-            </label>
-            <input
-              type="color"
-              [(ngModel)]="circleStampColor"
-              (input)="updateCircleStamp()"
-            />
-          </div>
-          <!-- Right div with canvas -->
-          <div class="col-md-6">
-            <canvas
-              #circleStampCanvas
-              width="300"
-              height="300"
-              style="border: 1px solid rgb(200, 200, 200)"
-            ></canvas>
-            <button class="btn btn-primary mt-3" (click)="saveCircleStamp()">
-              Save Circle Stamp
-            </button>
-            <!-- Display saved stamped circle image -->
-            <div class="mt-3">
-              <!-- Conditionally display saved image -->
-              @if (circleStampDataURL) {
-              <img [src]="circleStampDataURL" alt="Stamped Circle Image" />
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'Tab5'"
-      [class.active]="activeTab === 'Tab5'"
-    >
-      <div style="position: relative">
-        <ngx-extended-pdf-viewer
-          src="assets/Blazor.pdf"
-          height="75vh"
-          showSidebarOnLoad="true"
-        ></ngx-extended-pdf-viewer>
-      </div>
-    </div>
-
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'WebCam'"
-      [class.active]="activeTab === 'WebCam'"
-    >
-      <div style="text-align: center; width: 70%; margin: 0 auto">
-        <p>Webcam</p>
-        <!-- Button to check webcam permissions -->
-        <div>
-          <button class="btn btn-primary" (click)="checkWebcamPermissions()">
-            Check webcam permissions @if(status){
-            <p>Status here: {{ status }}</p>
-            }
-          </button>
-        </div>
-        <div>
-          <webcam
-            [trigger]="$trigger"
-            (imageCapture)="snapShot($event)"
-            [imageQuality]="1"
-          ></webcam>
-          @if(stream){
-          <button class="btn btn-primary" (click)="capturedImage()">
-            {{ btnLabel }}
-          </button>
-          }
-        </div>
-        <!--Preview section-->
-        <div>
-          @if(previewImage){
-          <img [src]="previewImage" height="250" width="250" />
-          <button (click)="proceed()">Procced</button>
-          }
-        </div>
-      </div>
-    </div>
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'LocationPermission'"
-      [class.active]="activeTab === 'LocationPermission'"
-    >
-      <div style="text-align: center; width: 70%; margin: 0 auto">
-        <div class="container">
-          <p>Your IP Address : {{ ipAddress }}</p>
-        </div>
-        <button class="btn btn-primary" (click)="promptLocationPermission()">
-          Prompt Location Permission
-        </button>
-        <!-- Display latitude and longitude -->
-        <p *ngIf="latitude !== null && longitude !== null">
-          Latitude: {{ latitude }}, Longitude: {{ longitude }}
-        </p>
-      </div>
-    </div>
-
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'QRCode'"
-      [class.active]="activeTab === 'QRCode'"
-    >
-      <div style="text-align: center">
-        <p>QR Code</p>
-        <qrcode
-          [qrdata]="myAngularxQrCode"
-          [width]="256"
-          [errorCorrectionLevel]="'M'"
-        ></qrcode>
-      </div>
-    </div>
-
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'ckeditor'"
-      [class.active]="activeTab === 'ckeditor'"
-    >
-      <div style="text-align: center">
-        <p>CKeditor</p>
-        <ckeditor
-          [(ngModel)]="editorData"
-          [editor]="Editor"
-          [config]="config"
-        ></ckeditor>
-      </div>
-    </div>
-
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'cke'"
-      [class.active]="activeTab === 'cke'"
-    >
-      <div style="text-align: center">
-        <p>Quill editor</p>
-        <quill-editor
-          [(ngModel)]="editorContent"
-          [theme]="'snow'"
-          [modules]="editorConfig"
-          [placeholder]="placeholder"
-          (onEditorCreated)="onEditorCreated($event)"
-        ></quill-editor>
-      </div>
-    </div>
-
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'cke'"
-      [class.active]="activeTab === 'cke'"
-    >
-      <p>kolkov/angular-editor</p>
-      <angular-editor
-        id="editor1"
-        [(ngModel)]="htmlContent"
-        [config]="editorConfig1"
-      >
-        <ng-template #customButtons let-executeCommandFn="executeCommandFn">
-          <ae-toolbar-set>
-            <ae-button
-              iconClass="fa fa-upload"
-              title="Upload .doc/.docx"
-              (buttonClick)="triggerFileInput()"
+  />
+  <div class="container">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [class.active]="activeTab === 'Canvas'"
+          (click)="selectTab('Canvas')"
+          style="cursor: pointer"
+          >Draw</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [class.active]="activeTab === 'Tab2'"
+            (click)="selectTab('Tab2')"
+            style="cursor: pointer"
+            >Select Style</a
             >
-            </ae-button>
-          </ae-toolbar-set>
-        </ng-template>
-      </angular-editor>
-      <!-- Hidden file input to be triggered by the custom toolbar button -->
-      <input
-        type="file"
-        id="fileInput"
-        style="display: none"
-        (change)="onFileChange($event)"
-        accept=".doc,.docx"
-      />
-    </div>
-
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'ckeditor-dixit'"
-      [class.active]="activeTab === 'ckeditor-dixit'"
-    >
-      <div class="NgxEditor__Wrapper">
-        <app-document-editor></app-document-editor>
-        <br />
-      </div>
-    </div>
-
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'ngxEditor'"
-      [class.active]="activeTab === 'ngxEditor'"
-    >
-      <div class="NgxEditor__Wrapper">
-        <st-editor [(ngModel)]="content" [config]="config1"></st-editor>
-
-        <br />
-      </div>
-    </div>
-
-    <div
-      class="tab-pane fade"
-      [class.show]="activeTab === 'Tree'"
-      [class.active]="activeTab === 'Tree'"
-    >
-      <div class="tree-container">
-        <div>
-          <p>Tree</p>
-          <ul>
-            <ng-container *ngFor="let node of treeData">
-              <li (contextmenu)="showContextMenu($event, node)">
-                <ng-container *ngIf="node.children">
-                  <!-- Render as button if node has children -->
-                  <button
-                    (click)="toggleNode(node)"
-                    (contextmenu)="addNode($event, node)"
-                    class="tree-button"
-                  >
-                    <span
-                      class="icon"
-                      *ngIf="node.children && node.children.length > 0"
-                    >
-                      <i
-                        class="fa fa-chevron-right"
-                        [class.fa-rotate-90]="node.expanded"
-                      ></i>
-                    </span>
-                    <span class="text">{{ node.name }}</span>
-                  </button>
-                </ng-container>
-                <ul *ngIf="node.children && node.expanded">
-                  <ng-container *ngFor="let child of node.children">
-                    <li *ngIf="child.visible">
-                      <button
-                        (click)="toggleNode(child)"
-                        (contextmenu)="addNode($event, child)"
-                        class="tree-button"
-                      >
-                        <span
-                          class="icon"
-                          *ngIf="child.children && child.children.length > 0"
-                        >
-                          <i
-                            class="fa fa-chevron-right"
-                            [class.fa-rotate-90]="child.expanded"
-                          ></i>
-                        </span>
-                        <span class="text">{{ child.name }}</span>
-                      </button>
-                      <ul *ngIf="child.children && child.expanded">
-                        <ng-container *ngFor="let grandchild of child.children">
-                          <li
-                            *ngIf="grandchild.visible"
-                            class="tree-button grandchild"
-                            (contextmenu)="showContextMenu($event, grandchild)"
-                          >
-                            <span class="text">{{ grandchild.name }}</span>
-                          </li>
-                        </ng-container>
-                      </ul>
-                    </li>
-                  </ng-container>
-                </ul>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="activeTab === 'Tab3'"
+              (click)="selectTab('Tab3')"
+              style="cursor: pointer"
+              >Stamp Rectangle</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [class.active]="activeTab === 'Tab4'"
+                (click)="selectTab('Tab4')"
+                style="cursor: pointer"
+                >Stamp Circle</a
+                >
               </li>
-            </ng-container>
-          </ul>
-        </div>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [class.active]="activeTab === 'Tab5'"
+                  (click)="selectTab('Tab5')"
+                  style="cursor: pointer"
+                  >PDF scroll</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    [class.active]="activeTab === 'WebCam'"
+                    (click)="selectTab('WebCam')"
+                    style="cursor: pointer"
+                    >Web cam</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      [class.active]="activeTab === 'LocationPermission'"
+                      (click)="selectTab('LocationPermission')"
+                      style="cursor: pointer"
+                      >
+                      Location Permission
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      [class.active]="activeTab === 'QRCode'"
+                      (click)="selectTab('QRCode')"
+                      style="cursor: pointer"
+                      >QR Code</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        class="nav-link"
+                        [class.active]="activeTab === 'ckeditor'"
+                        (click)="selectTab('ckeditor')"
+                        style="cursor: pointer"
+                        >CKeditor</a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link"
+                          [class.active]="activeTab === 'cke'"
+                          (click)="selectTab('cke')"
+                          style="cursor: pointer"
+                          >editor</a
+                          >
+                        </li>
+                        <li class="nav-item">
+                          <a
+                            class="nav-link"
+                            [class.active]="activeTab === 'ngxEditor'"
+                            (click)="selectTab('ngxEditor')"
+                            style="cursor: pointer"
+                            >ngxEditor</a
+                            >
+                          </li>
 
-        <!-- Right-side panel -->
-        <div class="right-panel">
-          <h3>Selected Node</h3>
-          <p *ngIf="selectedNode">{{ selectedNode.name }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                          <li class="nav-item">
+                            <a
+                              class="nav-link"
+                              [class.active]="activeTab === 'ckeditor-dixit'"
+                              (click)="selectTab('ckeditor-dixit')"
+                              style="cursor: pointer"
+                              >CKEditor Dixit</a
+                              >
+                            </li>
+
+                            <li class="nav-item">
+                              <a
+                                class="nav-link"
+                                [class.active]="activeTab === 'Tree'"
+                                (click)="selectTab('Tree')"
+                                style="cursor: pointer"
+                                >
+                                Tree
+                              </a>
+                            </li>
+                          </ul>
+                          <div class="tab-content">
+                            <div
+                              class="tab-pane fade"
+                              [class.show]="activeTab === 'Canvas'"
+                              [class.active]="activeTab === 'Canvas'"
+                              >
+                              <div style="text-align: center">
+                                <p>Canvas Drawing</p>
+                                <div style="margin-bottom: 20px">
+                                  <button class="btn btn-outline-light" (click)="setColor('black')">
+                                    <i class="fas fa-pencil-alt" style="color: black"></i>
+                                  </button>
+                                  <button class="btn btn-outline-light" (click)="setColor('red')">
+                                    <i class="fas fa-pencil-alt" style="color: red"></i>
+                                  </button>
+                                  <button class="btn btn-outline-light" (click)="setColor('blue')">
+                                    <i class="fas fa-pencil-alt" style="color: blue"></i>
+                                  </button>
+                                  <button (click)="clearCanvas()">Clear</button>
+                                </div>
+                                <canvas
+                                  #canvas
+                                  width="800"
+                                  height="400"
+                                  style="border: 1px solid black"
+                                  (mousedown)="mousedown($event)"
+                                  (mouseup)="mouseup()"
+                                  (mousemove)="mousemove($event)"
+                                ></canvas>
+                              </div>
+                            </div>
+                            <div
+                              class="tab-pane fade"
+                              [class.show]="activeTab === 'Tab2'"
+                              [class.active]="activeTab === 'Tab2'"
+                              >
+                              <div style="text-align: center; width: 70%; margin: 0 auto">
+                                <p>Text Style Selector</p>
+                                <div>
+                                  <div class="row">
+                                    <div class="col-md-5 mb-3">
+                                      <input
+                                        type="text"
+                                        [(ngModel)]="textInput"
+                                        class="form-control ml-md-10"
+                                        placeholder="Type your name here"
+                                        style="height: 100%; padding: 10px; margin-left: 20px"
+                                        (input)="drawText()"
+                                        />
+                                      </div>
+                                      <div class="col-md-4 text-md-right mt-2 mt-md-0">
+                                        <button
+                                          class="btn btn-outline-light mr-2"
+                                          (click)="setColor1('black')"
+                                          style="margin-left: 30px"
+                                          >
+                                          <i class="fas fa-pencil-alt" style="color: black"></i>
+                                        </button>
+                                        <button
+                                          class="btn btn-outline-light mr-2"
+                                          (click)="setColor1('red')"
+                                          >
+                                          <i class="fas fa-pencil-alt" style="color: red"></i>
+                                        </button>
+                                        <button class="btn btn-outline-light" (click)="setColor1('blue')">
+                                          <i class="fas fa-pencil-alt" style="color: blue"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row" style="margin-top: 10px">
+                                    @for (font of fonts; track font; let i = $index) {
+                                      <div class="col-md-12 mb-3">
+                                        <div class="d-flex justify-content-center">
+                                          <canvas
+                                            [id]="'textCanvas' + i"
+                                            width="600"
+                                            height="100"
+                                            style="border: 1px solid #000"
+                                          ></canvas>
+                                        </div>
+                                        <div class="d-flex justify-content-center mt-3">
+                                          <button class="btn btn-primary" (click)="convertCanvasToImage(i)">
+                                            Convert to Image
+                                          </button>
+                                        </div>
+                                      </div>
+                                    }
+                                  </div>
+                                  <div class="row" style="margin-top: 10px">
+                                    <div class="col-md-12 mb-3">
+                                      @if (canvasImage) {
+                                        <img
+                                          [src]="canvasImage"
+                                          style="max-width: 100%"
+                                          />
+                                      }
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="tab-pane fade"
+                                [class.show]="activeTab === 'Tab3'"
+                                [class.active]="activeTab === 'Tab3'"
+                                >
+                                <div style="text-align: center; width: 70%; margin: 0 auto">
+                                  <p>Stamp Rectangle</p>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <input
+                                        type="text"
+                                        [(ngModel)]="textTop"
+                                        class="form-control mb-3"
+                                        placeholder="Text Top"
+                                        (input)="updateStamp()"
+                                        />
+                                        <input
+                                          type="text"
+                                          [(ngModel)]="textCenter"
+                                          class="form-control mb-3"
+                                          placeholder="Text Center"
+                                          (input)="updateStamp()"
+                                          />
+                                          <input
+                                            type="text"
+                                            [(ngModel)]="textBottom"
+                                            class="form-control mb-3"
+                                            placeholder="Text Bottom"
+                                            (input)="updateStamp()"
+                                            />
+                                            <input
+                                              type="text"
+                                              [(ngModel)]="stampName"
+                                              class="form-control mb-3"
+                                              placeholder="Stamp Name"
+                                              (input)="updateStamp()"
+                                              />
+                                              <label style="margin-right: 10px">
+                                                <input
+                                                  type="checkbox"
+                                                  [(ngModel)]="showBorder"
+                                                  (change)="updateStamp()"
+                                                  />
+                                                  Border
+                                                </label>
+                                                <input
+                                                  type="color"
+                                                  [(ngModel)]="stampColor"
+                                                  (input)="updateStamp()"
+                                                  />
+                                                </div>
+                                                <div class="col-md-6">
+                                                  <canvas
+                                                    #stampCanvas
+                                                    width="400"
+                                                    height="200"
+                                                    style="border: 1px solid rgb(200, 200, 200)"
+                                                  ></canvas>
+                                                  <button class="btn btn-primary mt-3" (click)="saveStamp()">
+                                                    Save Stamp
+                                                  </button>
+                                                  <div class="mt-3">
+                                                    @if (stampDataURL) {
+                                                      <img [src]="stampDataURL" alt="Stamped Image" />
+                                                    }
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div
+                                            class="tab-pane fade"
+                                            [class.show]="activeTab === 'Tab4'"
+                                            [class.active]="activeTab === 'Tab4'"
+                                            >
+                                            <div style="text-align: center; width: 70%; margin: 0 auto">
+                                              <p>Stamp Circle</p>
+                                              <div class="row">
+                                                <!-- Left div with inputs -->
+                                                <div class="col-md-6">
+                                                  <input
+                                                    type="text"
+                                                    [(ngModel)]="circleTextTop"
+                                                    class="form-control mb-3"
+                                                    placeholder="Text Top"
+                                                    (input)="updateCircleStamp()"
+                                                    />
+                                                    <input
+                                                      type="text"
+                                                      [(ngModel)]="circleTextCenter"
+                                                      class="form-control mb-3"
+                                                      placeholder="Text Center"
+                                                      (input)="updateCircleStamp()"
+                                                      />
+                                                      <input
+                                                        type="text"
+                                                        [(ngModel)]="circleStampName"
+                                                        class="form-control mb-3"
+                                                        placeholder="Stamp Name"
+                                                        (input)="updateCircleStamp()"
+                                                        />
+                                                        <label style="margin-right: 10px">
+                                                          <input
+                                                            type="checkbox"
+                                                            [(ngModel)]="circleShowBorder"
+                                                            (change)="updateCircleStamp()"
+                                                            />
+                                                            Border
+                                                          </label>
+                                                          <label style="margin-right: 10px">
+                                                            <input
+                                                              type="checkbox"
+                                                              [(ngModel)]="showAdditionalCircle"
+                                                              (change)="updateCircleStamp()"
+                                                              />
+                                                              Show Additional Circle
+                                                            </label>
+                                                            <input
+                                                              type="color"
+                                                              [(ngModel)]="circleStampColor"
+                                                              (input)="updateCircleStamp()"
+                                                              />
+                                                            </div>
+                                                            <!-- Right div with canvas -->
+                                                            <div class="col-md-6">
+                                                              <canvas
+                                                                #circleStampCanvas
+                                                                width="300"
+                                                                height="300"
+                                                                style="border: 1px solid rgb(200, 200, 200)"
+                                                              ></canvas>
+                                                              <button class="btn btn-primary mt-3" (click)="saveCircleStamp()">
+                                                                Save Circle Stamp
+                                                              </button>
+                                                              <!-- Display saved stamped circle image -->
+                                                              <div class="mt-3">
+                                                                <!-- Conditionally display saved image -->
+                                                                @if (circleStampDataURL) {
+                                                                  <img [src]="circleStampDataURL" alt="Stamped Circle Image" />
+                                                                }
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <div
+                                                        class="tab-pane fade"
+                                                        [class.show]="activeTab === 'Tab5'"
+                                                        [class.active]="activeTab === 'Tab5'"
+                                                        >
+                                                        <div style="position: relative">
+                                                          <ngx-extended-pdf-viewer
+                                                            src="assets/Blazor.pdf"
+                                                            height="75vh"
+                                                            showSidebarOnLoad="true"
+                                                          ></ngx-extended-pdf-viewer>
+                                                        </div>
+                                                      </div>
+
+                                                      <div
+                                                        class="tab-pane fade"
+                                                        [class.show]="activeTab === 'WebCam'"
+                                                        [class.active]="activeTab === 'WebCam'"
+                                                        >
+                                                        <div style="text-align: center; width: 70%; margin: 0 auto">
+                                                          <p>Webcam</p>
+                                                          <!-- Button to check webcam permissions -->
+                                                          <div>
+                                                            <button class="btn btn-primary" (click)="checkWebcamPermissions()">
+                                                              Check webcam permissions @if(status){
+                                                              <p>Status here: {{ status }}</p>
+                                                            }
+                                                          </button>
+                                                        </div>
+                                                        <div>
+                                                          <webcam
+                                                            [trigger]="$trigger"
+                                                            (imageCapture)="snapShot($event)"
+                                                            [imageQuality]="1"
+                                                          ></webcam>
+                                                          @if(stream){
+                                                            <button class="btn btn-primary" (click)="capturedImage()">
+                                                              {{ btnLabel }}
+                                                            </button>
+                                                          }
+                                                        </div>
+                                                        <!--Preview section-->
+                                                        <div>
+                                                          @if(previewImage){
+                                                            <img [src]="previewImage" height="250" width="250" />
+                                                            <button (click)="proceed()">Procced</button>
+                                                          }
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="tab-pane fade"
+                                                      [class.show]="activeTab === 'LocationPermission'"
+                                                      [class.active]="activeTab === 'LocationPermission'"
+                                                      >
+                                                      <div style="text-align: center; width: 70%; margin: 0 auto">
+                                                        <div class="container">
+                                                          <p>Your IP Address : {{ ipAddress }}</p>
+                                                        </div>
+                                                        <button class="btn btn-primary" (click)="promptLocationPermission()">
+                                                          Prompt Location Permission
+                                                        </button>
+                                                        <!-- Display latitude and longitude -->
+                                                        @if (latitude !== null && longitude !== null) {
+                                                          <p>
+                                                            Latitude: {{ latitude }}, Longitude: {{ longitude }}
+                                                          </p>
+                                                        }
+                                                      </div>
+                                                    </div>
+
+                                                    <div
+                                                      class="tab-pane fade"
+                                                      [class.show]="activeTab === 'QRCode'"
+                                                      [class.active]="activeTab === 'QRCode'"
+                                                      >
+                                                      <div style="text-align: center">
+                                                        <p>QR Code</p>
+                                                        <qrcode
+                                                          [qrdata]="myAngularxQrCode"
+                                                          [width]="256"
+                                                          [errorCorrectionLevel]="'M'"
+                                                        ></qrcode>
+                                                      </div>
+                                                    </div>
+
+                                                    <div
+                                                      class="tab-pane fade"
+                                                      [class.show]="activeTab === 'ckeditor'"
+                                                      [class.active]="activeTab === 'ckeditor'"
+                                                      >
+                                                      <div style="text-align: center">
+                                                        <p>CKeditor</p>
+                                                        <ckeditor
+                                                          [(ngModel)]="editorData"
+                                                          [editor]="Editor"
+                                                          [config]="config"
+                                                        ></ckeditor>
+                                                      </div>
+                                                    </div>
+
+                                                    <div
+                                                      class="tab-pane fade"
+                                                      [class.show]="activeTab === 'cke'"
+                                                      [class.active]="activeTab === 'cke'"
+                                                      >
+                                                      <div style="text-align: center">
+                                                        <p>Quill editor</p>
+                                                        <quill-editor
+                                                          [(ngModel)]="editorContent"
+                                                          [theme]="'snow'"
+                                                          [modules]="editorConfig"
+                                                          [placeholder]="placeholder"
+                                                          (onEditorCreated)="onEditorCreated($event)"
+                                                        ></quill-editor>
+                                                      </div>
+                                                    </div>
+
+                                                    <div
+                                                      class="tab-pane fade"
+                                                      [class.show]="activeTab === 'cke'"
+                                                      [class.active]="activeTab === 'cke'"
+                                                      >
+                                                      <p>kolkov/angular-editor</p>
+                                                      <angular-editor
+                                                        id="editor1"
+                                                        [(ngModel)]="htmlContent"
+                                                        [config]="editorConfig1"
+                                                        >
+                                                        <ng-template #customButtons let-executeCommandFn="executeCommandFn">
+                                                          <ae-toolbar-set>
+                                                            <ae-button
+                                                              iconClass="fa fa-upload"
+                                                              title="Upload .doc/.docx"
+                                                              (buttonClick)="triggerFileInput()"
+                                                              >
+                                                            </ae-button>
+                                                          </ae-toolbar-set>
+                                                        </ng-template>
+                                                      </angular-editor>
+                                                      <!-- Hidden file input to be triggered by the custom toolbar button -->
+                                                      <input
+                                                        type="file"
+                                                        id="fileInput"
+                                                        style="display: none"
+                                                        (change)="onFileChange($event)"
+                                                        accept=".doc,.docx"
+                                                        />
+                                                      </div>
+
+                                                      <div
+                                                        class="tab-pane fade"
+                                                        [class.show]="activeTab === 'ckeditor-dixit'"
+                                                        [class.active]="activeTab === 'ckeditor-dixit'"
+                                                        >
+                                                        <div class="NgxEditor__Wrapper">
+                                                          <app-document-editor></app-document-editor>
+                                                          <br />
+                                                        </div>
+                                                      </div>
+
+                                                      <div
+                                                        class="tab-pane fade"
+                                                        [class.show]="activeTab === 'ngxEditor'"
+                                                        [class.active]="activeTab === 'ngxEditor'"
+                                                        >
+                                                        <div class="NgxEditor__Wrapper">
+                                                          <st-editor [(ngModel)]="content" [config]="config1"></st-editor>
+
+                                                          <br />
+                                                        </div>
+                                                      </div>
+
+                                                      <div
+                                                        class="tab-pane fade"
+                                                        [class.show]="activeTab === 'Tree'"
+                                                        [class.active]="activeTab === 'Tree'"
+                                                        >
+                                                        <div class="tree-container">
+                                                          <div>
+                                                            <p>Tree</p>
+                                                            <ul>
+                                                              @for (node of treeData; track node) {
+                                                                <li (contextmenu)="showContextMenu($event, node)">
+                                                                  @if (node.children) {
+                                                                    <!-- Render as button if node has children -->
+                                                                    <button
+                                                                      (click)="toggleNode(node)"
+                                                                      (contextmenu)="addNode($event, node)"
+                                                                      class="tree-button"
+                                                                      >
+                                                                      @if (node.children && node.children.length > 0) {
+                                                                        <span
+                                                                          class="icon"
+                                                                          >
+                                                                          <i
+                                                                            class="fa fa-chevron-right"
+                                                                            [class.fa-rotate-90]="node.expanded"
+                                                                          ></i>
+                                                                        </span>
+                                                                      }
+                                                                      <span class="text">{{ node.name }}</span>
+                                                                    </button>
+                                                                  }
+                                                                  @if (node.children && node.expanded) {
+                                                                    <ul>
+                                                                      @for (child of node.children; track child) {
+                                                                        @if (child.visible) {
+                                                                          <li>
+                                                                            <button
+                                                                              (click)="toggleNode(child)"
+                                                                              (contextmenu)="addNode($event, child)"
+                                                                              class="tree-button"
+                                                                              >
+                                                                              @if (child.children && child.children.length > 0) {
+                                                                                <span
+                                                                                  class="icon"
+                                                                                  >
+                                                                                  <i
+                                                                                    class="fa fa-chevron-right"
+                                                                                    [class.fa-rotate-90]="child.expanded"
+                                                                                  ></i>
+                                                                                </span>
+                                                                              }
+                                                                              <span class="text">{{ child.name }}</span>
+                                                                            </button>
+                                                                            @if (child.children && child.expanded) {
+                                                                              <ul>
+                                                                                @for (grandchild of child.children; track grandchild) {
+                                                                                  @if (grandchild.visible) {
+                                                                                    <li
+                                                                                      class="tree-button grandchild"
+                                                                                      (contextmenu)="showContextMenu($event, grandchild)"
+                                                                                      >
+                                                                                      <span class="text">{{ grandchild.name }}</span>
+                                                                                    </li>
+                                                                                  }
+                                                                                }
+                                                                              </ul>
+                                                                            }
+                                                                          </li>
+                                                                        }
+                                                                      }
+                                                                    </ul>
+                                                                  }
+                                                                </li>
+                                                              }
+                                                            </ul>
+                                                          </div>
+
+                                                          <!-- Right-side panel -->
+                                                          <div class="right-panel">
+                                                            <h3>Selected Node</h3>
+                                                            @if (selectedNode) {
+                                                              <p>{{ selectedNode.name }}</p>
+                                                            }
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>

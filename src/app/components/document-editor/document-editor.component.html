@@ -1,23 +1,41 @@
-<div draggable="true" (dragstart)="onDragStart($event)">[[City]]</div>
-<div draggable="true" (dragstart)="onDragStart($event)">[[State]]</div>
-<div draggable="true" (dragstart)="onDragStart($event)">[[Date]]</div>
-<div draggable="true" (dragstart)="onDragStart($event)">[[Name]]</div>
-
-<!-- <angular-editor id="editor1" [(ngModel)]="htmlContent" [config]="editorConfig1">
-  <ng-template #customButtons let-executeCommandFn="executeCommandFn">
-    <ae-toolbar-set>
-      <ae-button
-        iconClass="fa fa-upload"
-        title="Upload .doc/.docx"
-        (buttonClick)="triggerFileInput()"
-      >
-      </ae-button>
-    </ae-toolbar-set>
-  </ng-template>
-</angular-editor> -->
-
-<ckeditor
-  [(ngModel)]="editorData"
-  [editor]="Editor"
-  [config]="config"
-></ckeditor>
+<div class="container">
+  <div class="editor-container">
+    <ckeditor
+      [(ngModel)]="editorData"
+      [editor]="Editor"
+      [config]="config"
+    ></ckeditor>
+  </div>
+  <div class="draggable-container">
+    @for (tag of tags; track tag) {
+    <div draggable="true" (dragstart)="onDragStart($event, tag)">
+      [[{{ tag.name }}]] - {{ tag.type }}
+      @if (tag.type === 'Dropdown') { @for (option of tag.options; track option)
+      {
+      <div>- {{ option }}</div>
+      } }
+    </div>
+    }
+    <input type="text" [(ngModel)]="newTag" placeholder="Enter tag name" />
+    <select [(ngModel)]="newTagType">
+      <option value="Text box">Text box</option>
+      <option value="Checkbox">Checkbox</option>
+      <option value="Radio button">Radio button</option>
+      <option value="Dropdown">Dropdown</option>
+    </select>
+    @if (newTagType === 'Dropdown') {
+    <div>
+      <input
+        type="text"
+        [(ngModel)]="newDropdownOption"
+        placeholder="Enter dropdown option"
+      />
+      <button (click)="addDropdownOption()">Add Option</button>
+      @for (option of newDropdownOptions; track option) {
+      <div>{{ option }}</div>
+      }
+    </div>
+    }
+    <button (click)="addTag()">Add Tag</button>
+  </div>
+</div>

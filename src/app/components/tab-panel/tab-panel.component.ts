@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WebcamImage, WebcamModule } from 'ngx-webcam';
-import { CommonModule } from '@angular/common';
+
 import { Observable, Subject } from 'rxjs';
 import { QRCodeModule } from 'angularx-qrcode';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
@@ -61,15 +61,14 @@ interface TreeNode {
   imports: [
     FormsModule,
     WebcamModule,
-    CommonModule,
     QRCodeModule,
     NgxExtendedPdfViewerModule,
     QuillModule,
     NgxSimpleTextEditorModule,
     AngularEditorModule,
     CKEditorModule,
-    DocumentEditorComponent,
-  ],
+    DocumentEditorComponent
+],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
 })
@@ -91,7 +90,7 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
   currentColor = 'black';
   selectedColor: string = 'black';
   stampColor: string = 'black';
-  activeTab: string = 'ckeditor';
+  activeTab: string = 'ckeditor-dixit';
   textInput: string = '';
   fonts: string[] = [
     'Pacifico',
