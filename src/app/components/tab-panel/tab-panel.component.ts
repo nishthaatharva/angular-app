@@ -26,8 +26,26 @@ import {
   CUSTOM,
 } from 'ngx-simple-text-editor';
 
-import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
+import {
+  AngularEditorConfig,
+  AngularEditorModule,
+} from '@kolkov/angular-editor';
 import mammoth from 'mammoth';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import {
+  ClassicEditor,
+  Bold,
+  Essentials,
+  Italic,
+  Mention,
+  Paragraph,
+  Undo,
+  FontFamily,
+  FontSize,
+  FontColor,
+  FontBackgroundColor,
+} from 'ckeditor5';
+import 'ckeditor5/ckeditor5.css';
 
 interface TreeNode {
   name: string;
@@ -47,7 +65,8 @@ interface TreeNode {
     NgxExtendedPdfViewerModule,
     QuillModule,
     NgxSimpleTextEditorModule,
-    AngularEditorModule 
+    AngularEditorModule,
+    CKEditorModule,
   ],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
@@ -70,7 +89,7 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
   currentColor = 'black';
   selectedColor: string = 'black';
   stampColor: string = 'black';
-  activeTab: string = 'cke';
+  activeTab: string = 'ckeditor';
   textInput: string = '';
   fonts: string[] = [
     'Pacifico',
@@ -764,14 +783,14 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
 
   ///
 
+  ///
   content = '';
-  config: EditorConfig = {
+  config1: EditorConfig = {
     placeholder: 'Type something...',
     buttons: [CUSTOM],
   };
 
 
-  ///
 
   htmlContent: string = '';
 
@@ -794,7 +813,7 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
       { class: 'arial', name: 'Arial' },
       { class: 'times-new-roman', name: 'Times New Roman' },
       { class: 'calibri', name: 'Calibri' },
-      { class: 'comic-sans-ms', name: 'Comic Sans MS' }
+      { class: 'comic-sans-ms', name: 'Comic Sans MS' },
     ],
     customClasses: [
       {
@@ -803,7 +822,7 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
       },
       {
         name: 'redText',
-        class: 'redText'
+        class: 'redText',
       },
       {
         name: 'titleText',
@@ -814,10 +833,7 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
     uploadUrl: 'v1/image',
     sanitize: true,
     toolbarPosition: 'top',
-    toolbarHiddenButtons: [
-      ['bold', 'italic'],
-      ['fontSize']
-    ]
+    toolbarHiddenButtons: [['bold', 'italic'], ['fontSize']],
   };
 
   triggerFileInput() {
@@ -842,4 +858,32 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
       reader.readAsArrayBuffer(file);
     }
   }
+
+  ////
+
+  public Editor = ClassicEditor;
+  public editorData: string = '<p>Content of the editor.</p>';
+
+  public config = {
+    toolbar: [  'undo', 'redo',
+      '|',
+      'heading',
+      '|',
+      'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+      '|',
+      'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+      '|',
+      'link', 'uploadImage', 'blockQuote', 'codeBlock',
+      '|',
+      'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'],
+    plugins: [
+      Essentials,
+      Bold,
+      Italic,
+      Mention,
+      Paragraph,
+      Undo,
+    ],
+    licenseKey: 'DBCHHV747.FLG546VVS239',
+  };
 }
