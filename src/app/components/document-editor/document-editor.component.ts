@@ -222,6 +222,7 @@ export class DocumentEditorComponent {
   public newTagType: string = 'Text box';
   public newDropdownOption: string = '';
   public newDropdownOptions: string[] = [];
+  public previewContent: string = '';
 
   addTag() {
     if (this.newTag.trim() !== '') {
@@ -241,5 +242,9 @@ export class DocumentEditorComponent {
       this.newDropdownOptions.push(this.newDropdownOption.trim());
       this.newDropdownOption = '';
     }
+  }
+
+  showPreview() {
+    this.previewContent = this.editorData;
   }
 }

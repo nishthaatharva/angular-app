@@ -6,6 +6,6 @@
     "\\src\\app\\components",
     "\\src\\app\\components\\tab-panel"
   ],
-  "SelectedNode": "\\package.json",
+  "SelectedNode": "\\src\\app\\components\\tab-panel\\tab-panel.component.ts",
   "PreviewInSolutionExplorer": false
 }
