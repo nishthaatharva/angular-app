@@ -67,8 +67,8 @@ interface TreeNode {
     NgxSimpleTextEditorModule,
     AngularEditorModule,
     CKEditorModule,
-    DocumentEditorComponent
-],
+    DocumentEditorComponent,
+  ],
   templateUrl: './tab-panel.component.html',
   styleUrls: ['./tab-panel.component.css'],
 })
@@ -328,7 +328,6 @@ export class TabPanelComponent implements OnInit, AfterViewInit {
   }
 
   setInitial() {
-    debugger;
     if (this.textTop == '') {
       this.angleSpace = 0;
       this.fontSize = 20;

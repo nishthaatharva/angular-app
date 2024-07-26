@@ -32,12 +32,14 @@ import {
   PageBreak,
   SpecialCharacters,
   Typing,
+  SourceEditing,
 } from 'ckeditor5';
 import 'ckeditor5/ckeditor5.css';
 import {
   AngularEditorConfig,
   AngularEditorModule,
 } from '@kolkov/angular-editor';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface Tag {
   name: string;
@@ -53,10 +55,14 @@ interface Tag {
   styleUrl: './document-editor.component.scss',
 })
 export class DocumentEditorComponent {
+  constructor(private sanitizer: DomSanitizer) {
+    this.safeEditorData = this.sanitize(this.editorData);
+  }
   triggerFileInput() {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     fileInput.click();
   }
+  safeEditorData!: SafeHtml;
 
   editorConfig1: AngularEditorConfig = {
     editable: true,
@@ -109,7 +115,6 @@ export class DocumentEditorComponent {
 
   @HostListener('document:drop', ['$event'])
   onDrop(event: DragEvent) {
-    debugger;
     event.preventDefault();
     const editor = document.getElementById('editor1');
     if (editor) {
@@ -121,7 +126,6 @@ export class DocumentEditorComponent {
   }
 
   insertTag(tag: string) {
-    debugger;
     const editor = document.getElementById('editor1') as HTMLElement;
     const selection = window.getSelection();
     if (selection && selection.rangeCount > 0) {
@@ -182,6 +186,7 @@ export class DocumentEditorComponent {
       'Alignment',
       'Autoformat',
       'List',
+      'sourceEditing',
     ],
     plugins: [
       Essentials,
@@ -213,6 +218,7 @@ export class DocumentEditorComponent {
       PageBreak,
       SpecialCharacters,
       Typing,
+      SourceEditing,
     ],
     licenseKey: 'DBCHHV747.FLG546VVS239',
   };
@@ -251,6 +257,10 @@ export class DocumentEditorComponent {
       const underscore = '_'.repeat(tag.name.length); // replace with underscores of tag name length
       content = content.replace(new RegExp(tagPlaceholder, 'g'), underscore);
     }
-    this.previewContent = content;
+    this.safeEditorData = this.sanitize(content);
+  }
+
+  sanitize(content: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 }

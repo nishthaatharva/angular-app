@@ -38,15 +38,14 @@
     }
     <button (click)="addTag()">Add Tag</button>
   </div>
-  
 </div>
 <div class="container">
   <div>
     <button (click)="showPreview()">Show Preview</button>
-    @if (previewContent) {
+    @if (safeEditorData) {
     <div class="preview-container">
       <h3>Preview:</h3>
-      <div [innerHTML]="previewContent"></div>
+      <div [innerHTML]="safeEditorData"></div>
     </div>
     }
   </div>
