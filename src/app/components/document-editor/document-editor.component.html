@@ -10,6 +10,11 @@
     @for (tag of tags; track tag) {
     <div draggable="true" (dragstart)="onDragStart($event, tag)">
       [[{{ tag.name }}]] - {{ tag.type }}
+      {{
+        tag.type === "Checkbox" || tag.type === "Radio button"
+          ? "(" + tag.label + ")"
+          : ""
+      }}
       @if (tag.type === 'Dropdown') { @for (option of tag.options; track option)
       {
       <div>- {{ option }}</div>
@@ -23,7 +28,13 @@
       <option value="Radio button">Radio button</option>
       <option value="Dropdown">Dropdown</option>
     </select>
-    @if (newTagType === 'Dropdown') {
+    @if (newTagType === 'Checkbox' || newTagType === 'Radio button') {
+    <input
+      type="text"
+      [(ngModel)]="newTagLabel"
+      placeholder="Enter label name"
+    />
+    } @if (newTagType === 'Dropdown') {
     <div>
       <input
         type="text"

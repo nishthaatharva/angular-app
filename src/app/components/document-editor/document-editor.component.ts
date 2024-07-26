@@ -45,6 +45,7 @@ interface Tag {
   name: string;
   type: string;
   options?: string[];
+  label?: string;
 }
 
 @Component({
@@ -228,11 +229,19 @@ export class DocumentEditorComponent {
   public newTagType: string = 'Text box';
   public newDropdownOption: string = '';
   public newDropdownOptions: string[] = [];
+  public newTagLabel: string = '';
   public previewContent: string = '';
 
   addTag() {
     if (this.newTag.trim() !== '') {
-      const newTag: Tag = { name: this.newTag.trim(), type: this.newTagType };
+      const newTag: Tag = {
+        name: this.newTag.trim(),
+        type: this.newTagType,
+        label:
+          this.newTagType === 'Checkbox' || this.newTagType === 'Radio button'
+            ? this.newTagLabel.trim()
+            : '',
+      };
       if (this.newTagType === 'Dropdown') {
         newTag.options = [...this.newDropdownOptions];
         this.newDropdownOptions = [];
@@ -240,6 +249,7 @@ export class DocumentEditorComponent {
       this.tags.push(newTag);
       this.newTag = '';
       this.newTagType = 'Text box';
+      this.newTagLabel = '';
     }
   }
 
@@ -254,8 +264,8 @@ export class DocumentEditorComponent {
     let content = this.editorData;
     for (const tag of this.tags) {
       const tagPlaceholder = `${tag.name}`;
-      const underscore = '_'.repeat(tag.name.length); // replace with underscores of tag name length
-      content = content.replace(new RegExp(tagPlaceholder, 'g'), underscore);
+      const replacement = '_'.repeat(tag.name.length);
+      content = content.replace(new RegExp(tagPlaceholder, 'g'), replacement);
     }
     this.safeEditorData = this.sanitize(content);
   }
