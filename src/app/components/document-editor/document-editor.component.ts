@@ -245,6 +245,12 @@ export class DocumentEditorComponent {
   }
 
   showPreview() {
-    this.previewContent = this.editorData;
+    let content = this.editorData;
+    for (const tag of this.tags) {
+      const tagPlaceholder = `${tag.name}`;
+      const underscore = '_'.repeat(tag.name.length); // replace with underscores of tag name length
+      content = content.replace(new RegExp(tagPlaceholder, 'g'), underscore);
+    }
+    this.previewContent = content;
   }
 }
