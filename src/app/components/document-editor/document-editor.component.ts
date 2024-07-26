@@ -231,6 +231,7 @@ export class DocumentEditorComponent {
   public newDropdownOptions: string[] = [];
   public newTagLabel: string = '';
   public previewContent: string = '';
+  public tagValues: { [key: string]: any } = {};
 
   addTag() {
     if (this.newTag.trim() !== '') {
@@ -247,6 +248,7 @@ export class DocumentEditorComponent {
         this.newDropdownOptions = [];
       }
       this.tags.push(newTag);
+      this.tagValues[newTag.name] = ''; // Initialize the value
       this.newTag = '';
       this.newTagType = 'Text box';
       this.newTagLabel = '';
@@ -264,7 +266,11 @@ export class DocumentEditorComponent {
     let content = this.editorData;
     for (const tag of this.tags) {
       const tagPlaceholder = `${tag.name}`;
-      const replacement = '_'.repeat(tag.name.length);
+      const value = this.tagValues[tag.name] || '_'.repeat(tag.name.length);
+      const replacement =
+        tag.type === 'Checkbox' || tag.type === 'Radio button'
+          ? `${tag.label} [${value}]`
+          : value;
       content = content.replace(new RegExp(tagPlaceholder, 'g'), replacement);
     }
     this.safeEditorData = this.sanitize(content);
@@ -272,5 +278,25 @@ export class DocumentEditorComponent {
 
   sanitize(content: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(content);
+  }
+
+  handleInputChange(event: Event, tagName: string) {
+    const target = event.target as HTMLInputElement;
+    this.tagValues[tagName] = target.value;
+  }
+
+  handleDropdownChange(event: Event, tagName: string) {
+    const target = event.target as HTMLSelectElement;
+    this.tagValues[tagName] = target.value;
+  }
+
+  handleCheckboxChange(event: Event, tagName: string) {
+    const target = event.target as HTMLInputElement;
+    this.tagValues[tagName] = target.checked ? target.value : '';
+  }
+
+  handleRadioChange(event: Event, tagName: string, option: string) {
+    const target = event.target as HTMLInputElement;
+    this.tagValues[tagName] = option;
   }
 }

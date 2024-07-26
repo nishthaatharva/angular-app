@@ -50,6 +50,7 @@
     <button (click)="addTag()">Add Tag</button>
   </div>
 </div>
+
 <div class="container">
   <div>
     <button (click)="showPreview()">Show Preview</button>
@@ -59,5 +60,48 @@
       <div [innerHTML]="safeEditorData"></div>
     </div>
     }
+  </div>
+  <div class="form-container">
+    <h3>Fill in the form:</h3>
+    @for (tag of tags; track tag) { @if (tag.type === 'Text box') {
+    <div>
+      <label>{{ tag.name }}:</label>
+      <input type="text" (input)="handleInputChange($event, tag.name)" />
+    </div>
+    } @if (tag.type === 'Checkbox') {
+    <div>
+      <label>{{ tag.name }}:</label>
+      <input
+        type="checkbox"
+        (change)="handleCheckboxChange($event, tag.name)"
+        value="{{ tag.name }}"
+      />
+    </div>
+    } @if (tag.type === 'Radio button') {
+    <div>
+      <label>{{ tag.label }}:</label>
+      @for (option of tag.options; track option) {
+      <label>
+        <!-- <input
+          type="radio"
+          name="{{ tag.name }}"
+          (change)="handleRadioChange($event, tag.name, option)"
+        /> -->
+
+        <input type="radio" name="option" value="Option 3"> Option 3
+        {{ option }}
+      </label>
+      }
+    </div>
+    } @if (tag.type === 'Dropdown') {
+    <div>
+      <label>{{ tag.name }}:</label>
+      <select (change)="handleDropdownChange($event, tag.name)">
+        @for (option of tag.options; track option) {
+        <option value="{{ option }}">{{ option }}</option>
+        }
+      </select>
+    </div>
+    } }
   </div>
 </div>
