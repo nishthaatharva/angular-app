@@ -70,7 +70,7 @@
     </div>
     } @if (tag.type === 'Checkbox') {
     <div>
-      <label>{{ tag.name }}:</label>
+      <label>{{ tag.label }}:</label>
       <input
         type="checkbox"
         (change)="handleCheckboxChange($event, tag.name)"
@@ -80,18 +80,14 @@
     } @if (tag.type === 'Radio button') {
     <div>
       <label>{{ tag.label }}:</label>
-      @for (option of tag.options; track option) {
       <label>
-        <!-- <input
+        <input
           type="radio"
           name="{{ tag.name }}"
-          (change)="handleRadioChange($event, tag.name, option)"
-        /> -->
-
-        <input type="radio" name="option" value="Option 3"> Option 3
-        {{ option }}
+          (change)="handleRadioChange($event, tag.name, tag.name)"
+          value="{{ tag.name }}"
+        />
       </label>
-      }
     </div>
     } @if (tag.type === 'Dropdown') {
     <div>

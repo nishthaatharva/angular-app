@@ -242,6 +242,7 @@ export class DocumentEditorComponent {
           this.newTagType === 'Checkbox' || this.newTagType === 'Radio button'
             ? this.newTagLabel.trim()
             : '',
+        
       };
       if (this.newTagType === 'Dropdown') {
         newTag.options = [...this.newDropdownOptions];
@@ -266,11 +267,32 @@ export class DocumentEditorComponent {
     let content = this.editorData;
     for (const tag of this.tags) {
       const tagPlaceholder = `${tag.name}`;
-      const value = this.tagValues[tag.name] || '_'.repeat(tag.name.length);
-      const replacement =
-        tag.type === 'Checkbox' || tag.type === 'Radio button'
-          ? `${tag.label} [${value}]`
-          : value;
+      const value = this.tagValues[tag.name] 
+      //|| '_'.repeat(tag.name.length);
+      let replacement = '';
+
+      switch (tag.type) {
+        case 'Text box':
+          replacement = `<input type="text" value="${value}" />`;
+          break;
+        case 'Checkbox':
+          replacement = `<label>${tag.label}: <input type="checkbox" ${value ? 'checked' : ''} /></label>`;
+          break;
+        case 'Radio button':
+          replacement = `<label>${tag.label}: <input type="radio" ${value ? 'checked' : ''} /></label>`;
+          break;
+        case 'Dropdown':
+          replacement = `<select>${tag.options!
+            .map(
+              option =>
+                `<option value="${option}" ${value === option ? 'selected' : ''}>${option}</option>`
+            )
+            .join('')}</select>`;
+          break;
+        default:
+          replacement = value;
+      }
+
       content = content.replace(new RegExp(tagPlaceholder, 'g'), replacement);
     }
     this.safeEditorData = this.sanitize(content);
@@ -296,7 +318,6 @@ export class DocumentEditorComponent {
   }
 
   handleRadioChange(event: Event, tagName: string, option: string) {
-    const target = event.target as HTMLInputElement;
     this.tagValues[tagName] = option;
   }
 }
